@@ -86,7 +86,7 @@ export default async function WatchlistPage() {
           </div>
           <div className="top-lookup">
             <LookupBox compact />
-            <span className="muted">Anything public on GitHub can be looked up. The list are simply watched first.</span>
+            <span className="muted">Anything public on GitHub can be looked up. The projects on the list are simply watched first.</span>
           </div>
         </div>
       </section>
