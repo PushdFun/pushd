@@ -1,0 +1,976 @@
+{
+  "verifiedAt": "2026-10-27",
+  "accounts": [
+    {
+      "handle": "aeyakovenko",
+      "name": "Anatoly Yakovenko",
+      "org": "Solana",
+      "group": "chain",
+      "type": "user",
+      "followers": 1800,
+      "source": "Profile name \"anatoly yakovenko\", member of @solana-labs, links solanamobile.com; #21 committer on anza-xyz/agave"
+    },
+    {
+      "handle": "vbuterin",
+      "name": "Vitalik Buterin",
+      "org": "Ethereum",
+      "group": "chain",
+      "type": "user",
+      "followers": 13600,
+      "source": "Owns pyethereum, pybitcointools and blog (the source of his blog vitalik.eth.limo); 13.6k followers"
+    },
+    {
+      "handle": "gavofyork",
+      "name": "Gavin Wood",
+      "org": "Polkadot",
+      "group": "chain",
+      "type": "user",
+      "followers": 4400,
+      "source": "Profile name \"Gavin Wood\", member of @paritytech, links gavwood.com"
+    },
+    {
+      "handle": "garious",
+      "name": "Greg Fitzgerald",
+      "org": "Solana",
+      "group": "chain",
+      "type": "user",
+      "followers": 355,
+      "source": "Profile name \"Greg Fitzgerald\"; #4 committer on anza-xyz/agave (1,797 commits)"
+    },
+    {
+      "handle": "mvines",
+      "name": "Michael Vines",
+      "org": "Solana",
+      "group": "chain",
+      "type": "user",
+      "followers": 689,
+      "source": "#1 committer on anza-xyz/agave (3,973 commits); owns solana-bpf-program-template"
+    },
+    {
+      "handle": "jstarry",
+      "name": "Justin Starry",
+      "org": "Solana",
+      "group": "chain",
+      "type": "user",
+      "followers": 702,
+      "source": "Profile name \"Justin Starry\"; #6 committer on anza-xyz/agave (1,222 commits)"
+    },
+    {
+      "handle": "karalabe",
+      "name": "Péter Szilágyi",
+      "org": "Ethereum",
+      "group": "chain",
+      "type": "user",
+      "followers": 3100,
+      "source": "Profile name \"Péter Szilágyi\", bio \"Former Go @ethereum lead (2015-2025)\""
+    },
+    {
+      "handle": "protolambda",
+      "name": "protolambda",
+      "org": "Ethereum",
+      "group": "chain",
+      "type": "user",
+      "followers": 1300,
+      "source": "Bio \"Protocol architect, specialized in Ethereum R&D\", links protolambda.com and x.com/protolambda"
+    },
+    {
+      "handle": "sipa",
+      "name": "Pieter Wuille",
+      "org": "Bitcoin",
+      "group": "chain",
+      "type": "user",
+      "source": "Profile name \"Pieter Wuille\", bio \"@Bitcoin developer at @chaincodelabs\", links wuille.net"
+    },
+    {
+      "handle": "laanwj",
+      "name": "Mara van der Laan",
+      "org": "Bitcoin",
+      "group": "chain",
+      "type": "user",
+      "followers": 4800,
+      "source": "Profile name \"Mara van der Laan\", member of @bitcoin and @bitcoin-core"
+    },
+    {
+      "handle": "achow101",
+      "name": "Ava Chow",
+      "org": "Bitcoin",
+      "group": "chain",
+      "type": "user",
+      "followers": 1800,
+      "source": "Profile name \"Ava Chow\", member of @bitcoin and @bitcoin-core, links achow101.com"
+    },
+    {
+      "handle": "ilblackdragon",
+      "name": "Illia Polosukhin",
+      "org": "NEAR",
+      "group": "chain",
+      "type": "user",
+      "followers": 1300,
+      "source": "Profile name \"Illia Polosukhin\", member of @nearprotocol and @nearai"
+    },
+    {
+      "handle": "jessepollak",
+      "name": "Jesse Pollak",
+      "org": "Base",
+      "group": "chain",
+      "type": "user",
+      "followers": 1400,
+      "source": "Profile name \"Jesse Pollak\", bio \"building @coinbase\", links jesse.xyz and x.com/jessepollak"
+    },
+    {
+      "handle": "solana-labs",
+      "name": "Solana Labs",
+      "org": "Solana",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"Solana Labs\" links solanalabs.com; owns solana-program-library, solana",
+      "followers": 6000
+    },
+    {
+      "handle": "solana-foundation",
+      "name": "Solana Foundation",
+      "org": "Solana",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"Solana Foundation\" links solana.org; owns solana-improvement-documents, solana-com",
+      "followers": 2300
+    },
+    {
+      "handle": "anza-xyz",
+      "name": "Anza",
+      "org": "Solana",
+      "group": "chain",
+      "type": "org",
+      "source": "Owns agave, the Solana validator client, and solana-sdk",
+      "followers": 972
+    },
+    {
+      "handle": "firedancer-io",
+      "name": "Firedancer",
+      "org": "Solana",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"firedancer-io\" links firedancer.io; owns firedancer, radiance",
+      "followers": 282
+    },
+    {
+      "handle": "ethereum",
+      "name": "Ethereum",
+      "org": "Ethereum",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"ethereum\" links ethereum.org; owns go-ethereum, EIPs",
+      "followers": 15400
+    },
+    {
+      "handle": "base",
+      "name": "Base",
+      "org": "Base",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"Base\" links base.org; owns base, benchmark",
+      "followers": 5100
+    },
+    {
+      "handle": "ethereum-optimism",
+      "name": "Optimism",
+      "org": "Optimism",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"Optimism\" links optimism.io; owns optimism, specs",
+      "followers": 3100
+    },
+    {
+      "handle": "MystenLabs",
+      "name": "Mysten Labs",
+      "org": "Sui",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"Mysten Labs\" links mystenlabs.com; owns sui, walrus",
+      "followers": 4100
+    },
+    {
+      "handle": "aptos-labs",
+      "name": "Aptos Labs",
+      "org": "Aptos",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"Aptos Labs\" links aptoslabs.com; owns aptos-core, aptos-docs",
+      "followers": 5900
+    },
+    {
+      "handle": "ava-labs",
+      "name": "Ava Labs",
+      "org": "Avalanche",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"Ava Labs\" links www.avalabs.org; owns avalanchego, avalanche-faucet",
+      "followers": 1300
+    },
+    {
+      "handle": "near",
+      "name": "NEAR",
+      "org": "NEAR",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"NEAR\" links near.org; owns nearcore, NEPs",
+      "followers": 2600
+    },
+    {
+      "handle": "ton-blockchain",
+      "name": "TON",
+      "org": "TON",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"TON - The Open Network\" links ton.org; owns ton, acton",
+      "followers": 6700
+    },
+    {
+      "handle": "bitcoin",
+      "name": "Bitcoin",
+      "org": "Bitcoin",
+      "group": "chain",
+      "type": "org",
+      "source": "Owns bitcoin (Bitcoin Core) and bips",
+      "followers": 9000
+    },
+    {
+      "handle": "hyperliquid-dex",
+      "name": "Hyperliquid",
+      "org": "Hyperliquid",
+      "group": "chain",
+      "type": "org",
+      "source": "Org \"Hyperliquid\" links hyperfoundation.org; owns hyperliquid-python-sdk, node",
+      "followers": 1600
+    },
+    {
+      "handle": "gakonst",
+      "name": "Georgios Konstantopoulos",
+      "org": "Paradigm",
+      "group": "wallets",
+      "type": "user",
+      "followers": 5500,
+      "source": "Profile name \"Georgios Konstantopoulos\", bio \"cto @paradigmxyz\", member of @foundry-rs and @alloy-rs, links gakonst.com"
+    },
+    {
+      "handle": "transmissions11",
+      "name": "t11s",
+      "org": "Paradigm",
+      "group": "wallets",
+      "type": "user",
+      "followers": 3900,
+      "source": "Owns solmate and solcurity, member of @paradigmxyz, links x.com/transmissions11"
+    },
+    {
+      "handle": "jxom",
+      "name": "jxom",
+      "org": "wevm",
+      "group": "wallets",
+      "type": "user",
+      "followers": 1200,
+      "source": "Member of @wevm and @paradigmxyz, links x.com/_jxom"
+    },
+    {
+      "handle": "tmm",
+      "name": "tmm",
+      "org": "wevm",
+      "group": "wallets",
+      "type": "user",
+      "followers": 1100,
+      "source": "Member of @paradigmxyz, links awkweb.com and x.com/awkweb"
+    },
+    {
+      "handle": "ricmoo",
+      "name": "Richard Moore",
+      "org": "ethers.js",
+      "group": "wallets",
+      "type": "user",
+      "followers": 1500,
+      "source": "Profile name \"Richard Moore\", member of @ethers-io, links ricmoo.com and x.com/ricmoo"
+    },
+    {
+      "handle": "armaniferrante",
+      "name": "Armani Ferrante",
+      "org": "Backpack",
+      "group": "wallets",
+      "type": "user",
+      "followers": 1800,
+      "source": "Profile name \"Armani Ferrante\", member of @coral-xyz and @backpack-exchange, links x.com/armaniferrante"
+    },
+    {
+      "handle": "paradigmxyz",
+      "name": "Paradigm",
+      "org": "Paradigm",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Paradigm\" links paradigm.xyz; owns reth, centaur",
+      "followers": 2000
+    },
+    {
+      "handle": "foundry-rs",
+      "name": "Foundry",
+      "org": "Foundry",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Foundry\" links getfoundry.sh; owns foundry, starknet-foundry",
+      "followers": 1500
+    },
+    {
+      "handle": "wevm",
+      "name": "wevm",
+      "org": "viem and wagmi",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"wevm\" links wevm.dev; owns wagmi, viem",
+      "followers": 1100
+    },
+    {
+      "handle": "ethers-io",
+      "name": "ethers",
+      "org": "ethers.js",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"ethers-io\" links ethers.org; owns ethers.js, website",
+      "followers": 453
+    },
+    {
+      "handle": "OpenZeppelin",
+      "name": "OpenZeppelin",
+      "org": "OpenZeppelin",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"OpenZeppelin\" links openzeppelin.com; owns openzeppelin-contracts, openzeppelin-contracts-upgradeable",
+      "followers": 5500
+    },
+    {
+      "handle": "safe-global",
+      "name": "Safe",
+      "org": "Safe",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Safe Labs GmbH\" links safe.global; owns safe-wallet-monorepo, safe-apps-sdk",
+      "followers": 1200
+    },
+    {
+      "handle": "NomicFoundation",
+      "name": "Nomic Foundation",
+      "org": "Hardhat",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Nomic Foundation\" links nomic.foundation; owns hardhat, hardhat-vscode",
+      "followers": 721
+    },
+    {
+      "handle": "MetaMask",
+      "name": "MetaMask",
+      "org": "MetaMask",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"MetaMask\" links metamask.io; owns metamask-extension, metamask-mobile",
+      "followers": 6300
+    },
+    {
+      "handle": "phantom",
+      "name": "Phantom",
+      "org": "Phantom",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Phantom\" links phantom.app; owns deep-link-demo-app, phantom-connect-sdk",
+      "followers": 523
+    },
+    {
+      "handle": "rainbow-me",
+      "name": "Rainbow",
+      "org": "Rainbow",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Rainbow\" links rainbow.me; owns rainbow, rainbowkit",
+      "followers": 499
+    },
+    {
+      "handle": "reown-com",
+      "name": "Reown",
+      "org": "WalletConnect",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Reown\" links reown.com; owns appkit, web-examples",
+      "followers": 940
+    },
+    {
+      "handle": "LedgerHQ",
+      "name": "Ledger",
+      "org": "Ledger",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Ledger\" links www.ledger.com; owns ledger-live-desktop, ledger-live",
+      "followers": 1200
+    },
+    {
+      "handle": "trezor",
+      "name": "Trezor",
+      "org": "Trezor",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Trezor\" links trezor.io; owns trezor-firmware, trezor-suite",
+      "followers": 1300
+    },
+    {
+      "handle": "RabbyHub",
+      "name": "Rabby",
+      "org": "Rabby",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Rabby\" links rabby.io; owns Rabby, rabbykit",
+      "followers": 391
+    },
+    {
+      "handle": "solflare-wallet",
+      "name": "Solflare",
+      "org": "Solflare",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Solflare\" links solflare.com; owns utl-aggregator, solflare-snap",
+      "followers": 91
+    },
+    {
+      "handle": "coinbase",
+      "name": "Coinbase",
+      "org": "Coinbase",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Coinbase\" links www.coinbase.com; owns coinbase-wallet-sdk, terraform-landscape",
+      "followers": 2700
+    },
+    {
+      "handle": "coral-xyz",
+      "name": "Coral",
+      "org": "Anchor and Backpack",
+      "group": "wallets",
+      "type": "org",
+      "source": "Owns backpack and xnft; @armaniferrante is a member",
+      "followers": 724
+    },
+    {
+      "handle": "metaplex-foundation",
+      "name": "Metaplex Foundation",
+      "org": "Metaplex",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Metaplex Foundation\" links metaplex.foundation; owns skill, mpl-core",
+      "followers": 874
+    },
+    {
+      "handle": "helius-labs",
+      "name": "Helius",
+      "org": "Helius",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Helius\" links www.helius.dev; owns helius-cli, zolana",
+      "followers": 492
+    },
+    {
+      "handle": "jito-foundation",
+      "name": "Jito Foundation",
+      "org": "Jito",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"Jito Foundation\" links jito.network; owns jito-solana, geyser-grpc-plugin",
+      "followers": 327
+    },
+    {
+      "handle": "sendaifun",
+      "name": "SendAI",
+      "org": "Solana Agent Kit",
+      "group": "wallets",
+      "type": "org",
+      "source": "Org \"SendAI\" links www.sendai.fun; owns solana-agent-kit, solana-app-kit",
+      "followers": 252
+    },
+    {
+      "handle": "pump-fun",
+      "name": "Pump.fun",
+      "org": "Pump.fun",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Pump.fun\" links pump.fun; owns pump-public-docs, pump-fun-skills",
+      "followers": 418
+    },
+    {
+      "handle": "bagsfm",
+      "name": "BAGS",
+      "org": "Bags",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"BAGS\" links bags.fm; owns bags-sdk, bags-idl",
+      "followers": 42
+    },
+    {
+      "handle": "metaDAOproject",
+      "name": "MetaDAO",
+      "org": "MetaDAO",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"MetaDAO\" links metadao.fi; owns programs, YALOB",
+      "followers": 133
+    },
+    {
+      "handle": "raydium-io",
+      "name": "Raydium",
+      "org": "Raydium",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Raydium Protocol\" links raydium.io; owns raydium-clmm, raydium-amm",
+      "followers": 837
+    },
+    {
+      "handle": "MeteoraAg",
+      "name": "Meteora",
+      "org": "Meteora",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Meteora\" links meteora.ag; owns damm-v2, dynamic-bonding-curve",
+      "followers": 343
+    },
+    {
+      "handle": "jup-ag",
+      "name": "Jupiter",
+      "org": "Jupiter",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Jupiter\" links jup.ag; owns metis-binary, jupiter-quote-api-node",
+      "followers": 1000
+    },
+    {
+      "handle": "orca-so",
+      "name": "Orca",
+      "org": "Orca",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Owns whirlpools, the Orca concentrated liquidity program",
+      "followers": 326
+    },
+    {
+      "handle": "ourzora",
+      "name": "Zora",
+      "org": "Zora",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Zora\" links zora.co; owns zora-protocol, zorb",
+      "followers": 543
+    },
+    {
+      "handle": "clanker-devco",
+      "name": "Clanker",
+      "org": "Clanker",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Clanker\" links clanker.world; owns DOCS, clanker-sdk",
+      "followers": 66
+    },
+    {
+      "handle": "Virtual-Protocol",
+      "name": "Virtuals Protocol",
+      "org": "Virtuals",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Virtuals Protocol\" links virtuals.io; owns openclaw-acp, virtuals-python",
+      "followers": 381
+    },
+    {
+      "handle": "elizaOS",
+      "name": "elizaOS",
+      "org": "elizaOS",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"elizaOS\" links elizaos.ai; owns eliza, knowledge",
+      "followers": 3400
+    },
+    {
+      "handle": "lalalune",
+      "name": "Shaw",
+      "org": "elizaOS",
+      "group": "launchpads",
+      "type": "user",
+      "followers": 2500,
+      "source": "Profile name \"Shaw\", bio \"Creator of elizaOS\", member of @elizaOS, links x.com/shawmakesmagic"
+    },
+    {
+      "handle": "Uniswap",
+      "name": "Uniswap Labs",
+      "org": "Uniswap",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Uniswap Labs\" links uniswap.org; owns v3-core, v3-periphery",
+      "followers": 7000
+    },
+    {
+      "handle": "pancakeswap",
+      "name": "PancakeSwap",
+      "org": "PancakeSwap",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"PancakeSwap\" links pancakeswap.finance; owns pancake-document, infinity-core",
+      "followers": 2400
+    },
+    {
+      "handle": "aerodrome-finance",
+      "name": "Aerodrome",
+      "org": "Aerodrome",
+      "group": "launchpads",
+      "type": "org",
+      "source": "Org \"Aerodrome Finance\" links aerodrome.finance; owns contracts, bots",
+      "followers": 332
+    },
+    {
+      "handle": "openai",
+      "name": "OpenAI",
+      "org": "OpenAI",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"OpenAI\" links openai.com; owns openai-cookbook, whisper",
+      "followers": 140600
+    },
+    {
+      "handle": "anthropics",
+      "name": "Anthropic",
+      "org": "Anthropic",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Anthropic\" links anthropic.com; owns skills, claude-code",
+      "followers": 93900
+    },
+    {
+      "handle": "google-deepmind",
+      "name": "Google DeepMind",
+      "org": "Google DeepMind",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Google DeepMind\" links www.deepmind.com; owns alphafold3, mujoco",
+      "followers": 27500
+    },
+    {
+      "handle": "google-gemini",
+      "name": "Google Gemini",
+      "org": "Gemini",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"google-gemini\" links ai.google.dev and x.com/googleaidevs; owns gemini-cli and cookbook",
+      "followers": 15800
+    },
+    {
+      "handle": "meta-llama",
+      "name": "Meta Llama",
+      "org": "Meta",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Meta Llama\" links llama.meta.com; owns llama, llama3",
+      "followers": 11400
+    },
+    {
+      "handle": "mistralai",
+      "name": "Mistral AI",
+      "org": "Mistral AI",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Mistral AI\" links mistral.ai; owns mistral-inference, mistral-vibe",
+      "followers": 9300
+    },
+    {
+      "handle": "huggingface",
+      "name": "Hugging Face",
+      "org": "Hugging Face",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Hugging Face\" links huggingface.co and x.com/huggingface; owns transformers, diffusers",
+      "followers": 70200
+    },
+    {
+      "handle": "xai-org",
+      "name": "xAI",
+      "org": "xAI",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"SpaceXSI Org\" links x.ai; owns grok-1 and grok-prompts",
+      "followers": 13600
+    },
+    {
+      "handle": "deepseek-ai",
+      "name": "DeepSeek",
+      "org": "DeepSeek",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"DeepSeek\" links www.deepseek.com; owns deepseek-harness, deepseek-recipe",
+      "followers": 111300
+    },
+    {
+      "handle": "QwenLM",
+      "name": "Qwen",
+      "org": "Alibaba Qwen",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Qwen\" links qwen.ai; owns Qwen3.8, Qwen3-VL",
+      "followers": 20200
+    },
+    {
+      "handle": "MoonshotAI",
+      "name": "Moonshot AI",
+      "org": "Kimi",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Moonshot AI\" links moonshot.ai",
+      "followers": 10000
+    },
+    {
+      "handle": "zai-org",
+      "name": "Z.ai",
+      "org": "GLM",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Z.ai\" links www.zhipuai.cn/en; owns GLM-Image, zcode-plugins",
+      "followers": 6400
+    },
+    {
+      "handle": "MiniMax-AI",
+      "name": "MiniMax",
+      "org": "MiniMax",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"MiniMax\" links www.minimax.io; owns skills, Mini-Agent",
+      "followers": 8000
+    },
+    {
+      "handle": "allenai",
+      "name": "Ai2",
+      "org": "Ai2",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Ai2\" links www.allenai.org; owns OLMo, dolma",
+      "followers": 5100
+    },
+    {
+      "handle": "NVIDIA",
+      "name": "NVIDIA",
+      "org": "NVIDIA",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"NVIDIA Corporation\" links nvidia.com; owns cosmos, NemoClaw",
+      "followers": 32000
+    },
+    {
+      "handle": "ollama",
+      "name": "Ollama",
+      "org": "Ollama",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"Ollama\" links ollama.com; owns ollama, ollama-vscode",
+      "followers": 10500
+    },
+    {
+      "handle": "ggml-org",
+      "name": "ggml",
+      "org": "llama.cpp",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"ggml\" links huggingface.co/ggml-org and x.com/ggml_org; owns ggml, llama.cpp",
+      "followers": 5000
+    },
+    {
+      "handle": "tinygrad",
+      "name": "the tiny corp",
+      "org": "tinygrad",
+      "group": "ai",
+      "type": "org",
+      "source": "Org \"the tiny corp\" links tinygrad.org; owns tinygrad, tinyxxx",
+      "followers": 1900
+    },
+    {
+      "handle": "karpathy",
+      "name": "Andrej Karpathy",
+      "org": "nanoGPT",
+      "group": "ai",
+      "type": "user",
+      "followers": 228000,
+      "source": "Owns nanoGPT, nanochat and llm.c, links x.com/karpathy; 228k followers"
+    },
+    {
+      "handle": "ggerganov",
+      "name": "Georgi Gerganov",
+      "org": "llama.cpp",
+      "group": "ai",
+      "type": "user",
+      "followers": 20900,
+      "source": "Profile name \"Georgi Gerganov\", member of @ggml-org, links ggerganov.com and x.com/ggerganov"
+    },
+    {
+      "handle": "lucidrains",
+      "name": "Phil Wang",
+      "org": "lucidrains",
+      "group": "ai",
+      "type": "user",
+      "followers": 61700,
+      "source": "Profile name \"Phil Wang\", owns vit-pytorch and x-transformers, links lucidrains.github.io"
+    },
+    {
+      "handle": "simonw",
+      "name": "Simon Willison",
+      "org": "Datasette and llm",
+      "group": "ai",
+      "type": "user",
+      "followers": 17500,
+      "source": "Profile name \"Simon Willison\", owns datasette and llm, links simonwillison.net and x.com/simonw"
+    },
+    {
+      "handle": "geohot",
+      "name": "George Hotz",
+      "org": "tinygrad",
+      "group": "ai",
+      "type": "user",
+      "followers": 47500,
+      "source": "Profile name \"George Hotz\", member of @tinygrad and @commaai, links geohot.com"
+    },
+    {
+      "handle": "torvalds",
+      "name": "Linus Torvalds",
+      "org": "Linux",
+      "group": "oss",
+      "type": "user",
+      "followers": 330000,
+      "source": "Profile name \"Linus Torvalds\", owns linux; 330k followers"
+    },
+    {
+      "handle": "antirez",
+      "name": "Salvatore Sanfilippo",
+      "org": "Redis",
+      "group": "oss",
+      "type": "user",
+      "followers": 32400,
+      "source": "Profile name \"Salvatore Sanfilippo\", owns kilo and linenoise, links x.com/antirez"
+    },
+    {
+      "handle": "sindresorhus",
+      "name": "Sindre Sorhus",
+      "org": "npm packages",
+      "group": "oss",
+      "type": "user",
+      "followers": 85100,
+      "source": "Profile name \"Sindre Sorhus\", links sindresorhus.com; 85k followers"
+    },
+    {
+      "handle": "yyx990803",
+      "name": "Evan You",
+      "org": "Vue and Vite",
+      "group": "oss",
+      "type": "user",
+      "followers": 112000,
+      "source": "Profile name \"Evan You\", bio \"author of @vuejs and @vitejs\", links evanyou.me and x.com/evanyou"
+    },
+    {
+      "handle": "rauchg",
+      "name": "Guillermo Rauch",
+      "org": "Vercel",
+      "group": "oss",
+      "type": "user",
+      "followers": 17500,
+      "source": "Profile name \"Guillermo Rauch\", member of @vercel, links twitter.com/rauchg"
+    },
+    {
+      "handle": "shadcn",
+      "name": "shadcn",
+      "org": "shadcn/ui",
+      "group": "oss",
+      "type": "user",
+      "followers": 17200,
+      "source": "Member of @vercel, links x.com/shadcn; 17k followers"
+    },
+    {
+      "handle": "mitchellh",
+      "name": "Mitchell Hashimoto",
+      "org": "Ghostty",
+      "group": "oss",
+      "type": "user",
+      "followers": 24900,
+      "source": "Profile name \"Mitchell Hashimoto\", links mitchellh.com and x.com/mitchellh"
+    },
+    {
+      "handle": "gaearon",
+      "name": "Dan Abramov",
+      "org": "React",
+      "group": "oss",
+      "type": "user",
+      "followers": 94100,
+      "source": "Profile name \"dan\", member of @reactjs, links danabra.mov"
+    },
+    {
+      "handle": "dhh",
+      "name": "David Heinemeier Hansson",
+      "org": "Rails",
+      "group": "oss",
+      "type": "user",
+      "followers": 30600,
+      "source": "Profile name \"David Heinemeier Hansson\", member of @rails and @basecamp, links dhh.dk"
+    },
+    {
+      "handle": "jart",
+      "name": "Justine Tunney",
+      "org": "Cosmopolitan",
+      "group": "oss",
+      "type": "user",
+      "followers": 12200,
+      "source": "Profile name \"Justin Tunney\", owns cosmopolitan and blink, links justine.lol"
+    },
+    {
+      "handle": "tj",
+      "name": "TJ Holowaychuk",
+      "org": "commander.js",
+      "group": "oss",
+      "type": "user",
+      "followers": 54700,
+      "source": "Owns git-extras and commander.js; 54.7k followers"
+    },
+    {
+      "handle": "ThePrimeagen",
+      "name": "ThePrimeagen",
+      "org": "ThePrimeagen",
+      "group": "oss",
+      "type": "user",
+      "followers": 49800,
+      "source": "Links twitch.tv/ThePrimeagen, youtube.com/ThePrimeTimeagen and x.com/ThePrimeagen"
+    },
+    {
+      "handle": "levelsio",
+      "name": "Pieter Levels",
+      "org": "levels.io",
+      "group": "oss",
+      "type": "user",
+      "followers": 5400,
+      "source": "Bio \"Chief Shitposting Officer @ Levels Synergies & Co\", links levels.io and x.com/levelsio"
+    },
+    {
+      "handle": "fiatjaf",
+      "name": "fiatjaf",
+      "org": "Nostr",
+      "group": "oss",
+      "type": "user",
+      "followers": 2400,
+      "source": "Member of @nostr-protocol, owns nak, links fiatjaf.com"
+    },
+    {
+      "handle": "balajis",
+      "name": "Balaji Srinivasan",
+      "org": "The Network State",
+      "group": "oss",
+      "type": "user",
+      "followers": 963,
+      "source": "Profile name \"Balaji S. Srinivasan\", links balajis.com and x.com/balajis"
+    },
+    {
+      "handle": "vercel",
+      "name": "Vercel",
+      "org": "Next.js",
+      "group": "oss",
+      "type": "org",
+      "source": "Org \"Vercel\" links vercel.com; owns next.js, vercel",
+      "followers": 31800
+    }
+  ]
+}

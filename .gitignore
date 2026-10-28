@@ -1,0 +1,27 @@
+# dependencies and build output
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# local settings and secrets
+.env*
+!.env.example
+
+# screenshots from the local checks (regenerated on demand)
+web/shots/
+
+.DS_Store
+*.log
+
+# contracts: the fee shares stay on this Mac, forge output and records stay local
+/contracts/split.local.json
+/contracts/out/
+/contracts/cache/
+/contracts/broadcast/
+
+# internal notes and design rounds: kept on this Mac, never published
+/PLAN.md
+/BRAND.md
+/designs/

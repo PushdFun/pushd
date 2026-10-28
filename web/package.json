@@ -1,0 +1,33 @@
+{
+  "name": "pushd-web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3700",
+    "build": "next build",
+    "start": "next start -p ${PORT:-3700}",
+    "lint": "eslint",
+    "test:smoke": "node --test test/smoke.test.mjs",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "next": "^16.4.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1",
+    "viem": "2.57.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "^16.4.0",
+    "tsx": "4.23.15",
+    "typescript": "^5",
+    "vitest": "4.1.12"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

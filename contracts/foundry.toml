@@ -1,0 +1,28 @@
+[profile.default]
+src = "src"
+out = "out"
+libs = ["lib"]
+solc = "0.8.28"
+optimizer = true
+optimizer_runs = 10000
+evm_version = "cancun"
+remappings = ["forge-std/=lib/forge-std/src/"]
+# nothing is read or written from Solidity, and ffi stays off
+# `new X()` in a test is a real CREATE from the test contract: the tests predict addresses from its nonce, the way
+# the deploy script does from the deployer's
+dynamic_test_linking = false
+
+[fuzz]
+runs = 1000
+
+# the pot and the splitter under random sequences of every call anyone can make (test/Invariants.t.sol)
+[invariant]
+runs = 64
+depth = 80
+
+[fmt]
+line_length = 120
+
+[lint]
+severity = ["high", "med", "low"]
+lint_on_build = false

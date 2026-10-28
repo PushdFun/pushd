@@ -1,0 +1,15 @@
+node_modules/
+# the watcher's store and its HTTP cache: local state, never committed
+data/*.sqlite
+data/*.sqlite-*
+data/costs.csv
+# screenshots from the local checks (regenerated on demand)
+shots/
+.env*
+!.env.example
+
+# repo preview pictures (src/media.ts): fetched once, kept locally, never committed
+data/media/
+
+# the private denylist (accounts never shown): local file, or PUSHD_DENY_PRIVATE on the host
+data/deny.private.json

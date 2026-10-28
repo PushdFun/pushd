@@ -1,0 +1,60 @@
+/* app: the installed app's offline page, alerts with PUSHD closed (holder tools), sound mode */
+
+/* ---------- offline page ---------- */
+.offline .lede { max-width: 56ch; }
+.offline-log {
+  margin: 28px 0 0;
+  padding: 16px 18px;
+  max-width: 520px;
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  background: var(--bg-2);
+  font: 13px/1.7 var(--mono);
+  color: var(--muted);
+  white-space: pre-wrap;
+}
+
+/* ---------- alerts with PUSHD closed (inside the holder's alerts panel) ---------- */
+.push-block {
+  margin-top: 20px;
+  padding: 18px 18px 16px;
+  border: 1px dashed var(--line-2);
+  border-radius: 8px;
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.push-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 15.5px; }
+.push-head b { font-weight: 700; }
+.push-head .tag { margin-left: auto; }
+.push-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--dim); flex: none; }
+.push-dot.on { background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.push-dot.ready { background: var(--heat-medium); }
+.push-dot.blocked, .push-dot.unsupported { background: var(--heat-vhigh); }
+.push-dot.checking, .push-dot.busy { background: var(--cyan); animation: blink 1.1s steps(1) infinite; }
+.push-block p { font-size: 14.5px; color: var(--muted); margin: 0; }
+.push-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.push-state { font-family: var(--mono); font-size: 12.5px; color: var(--dim); }
+.push-state b { color: var(--text); font-weight: 500; }
+.push-btn { height: 38px; padding: 0 14px; font-size: 13px; }
+.push-note { color: var(--heat-medium) !important; }
+
+/* a sample of the block, drawn on its own (no signed-in holder) */
+.push-sample { max-width: 560px; }
+
+/* ---------- sound mode ---------- */
+.sound-btn svg { width: 18px; height: 18px; }
+.sound-btn.on { color: var(--accent); }
+.sound-btn.on .waves { animation: sound-wave 1.6s ease-in-out infinite; transform-origin: 12px 12px; }
+@keyframes sound-wave { 50% { opacity: 0.35; } }
+.pill.sound-pill { gap: 7px; font-family: var(--mono); font-size: 12px; padding: 5px 12px; }
+.pill.sound-pill svg { width: 15px; height: 15px; }
+.pill.sound-pill.on { color: var(--accent); border-color: var(--accent); background: var(--accent-soft); }
+
+@media (max-width: 760px) {
+  .push-block { padding: 16px 14px 14px; }
+  .push-row { flex-direction: column; align-items: flex-start; }
+  .push-btn { width: 100%; justify-content: center; }
+}
+.offline.page-head { border-bottom: 0; }
