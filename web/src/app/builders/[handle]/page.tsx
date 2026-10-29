@@ -13,7 +13,7 @@ import { MoveChip, ScoreBreakdown } from "@/components/ScoreBreakdown";
 import { getBuilder, getProjectRank } from "@/lib/data";
 import { TokenBox, TokenTag } from "@/components/TokenBox";
 import { everyText } from "@/lib/lookup";
-import { ago, agoWords, bare, num, shortDate } from "@/lib/format";
+import { ago, agoWords, bare, num, reasonText, shortDate } from "@/lib/format";
 import { GROUPS, KIND_LABEL } from "@/lib/groups";
 import { langColor } from "@/lib/langs";
 import { builderPost, busiestWeekday, currentStreak, longestStreak, peakHour, shipsAt } from "@/lib/profile";
@@ -306,7 +306,7 @@ export default async function BuilderPage({ params }: Props) {
                     </li>
                   )}
                   {pr.row.enteredAt && <li>in since {shortDate(pr.row.enteredAt)}</li>}
-                  {pr.poolSince && <li>in the pool since {shortDate(pr.poolSince)}</li>}
+                  {pr.poolSince && <li>on the list since {shortDate(pr.poolSince)}</li>}
                 </ul>
                 {pr.history.length > 1 && (
                   <div className="wr-hist">
@@ -316,7 +316,7 @@ export default async function BuilderPage({ params }: Props) {
                 )}
                 {lastChange && (
                   <p className="wr-change">
-                    <span className={`mv mv-${lastChange.change === "enter" ? "new" : "down"}`}>{lastChange.change === "enter" ? "in" : "out"}</span> {lastChange.reason}
+                    <span className={`mv mv-${lastChange.change === "enter" ? "new" : "down"}`}>{lastChange.change === "enter" ? "in" : "out"}</span> {reasonText(lastChange.reason)}
                   </p>
                 )}
               </div>

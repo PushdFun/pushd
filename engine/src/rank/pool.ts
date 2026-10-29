@@ -136,6 +136,8 @@ export class Pool {
     // every coin's addresses in one call: a coin whose page is not read yet still gets its tokens in (its GitHub link
     // then comes from the DEX listing or its website)
     const platforms = await this.gecko.platforms();
+    // the day's coin pages spread over the day's passes
+    this.gecko.startPass(Math.ceil((c.sources.geckoDetailsPerDay * c.deepEveryHours) / 24));
     let details = 0;
     for (const coin of coins) {
       if (seen.has(coin.id)) continue;
@@ -162,6 +164,15 @@ export class Pool {
       ['"solscan.io/token/" filename:README.md', "solana"],
       ['"basescan.org/token/" filename:README.md', "base"],
       ['"contract address" pump filename:README.md', "solana"],
+      ['"dexscreener.com/ethereum/" filename:README.md', "ethereum"],
+      ['"dexscreener.com/bsc/" filename:README.md', "bsc"],
+      ['"dexscreener.com/arbitrum/" filename:README.md', "arbitrum"],
+      ['"gmgn.ai/sol/token/" filename:README.md', "solana"],
+      ['"jup.ag/swap/" filename:README.md', "solana"],
+      ['"raydium.io/swap" filename:README.md', "solana"],
+      ['"etherscan.io/token/" filename:README.md', "ethereum"],
+      ['"CA:" filename:README.md', "solana"],
+      ['"token address" filename:README.md', null],
     ];
     let found = 0;
     for (const [q, chain] of queries) {

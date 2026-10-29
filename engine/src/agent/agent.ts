@@ -128,7 +128,7 @@ export class Agent {
         name: "pushd_latest",
         rest: "feed",
         title: "Latest feed (delayed)",
-        description: `The newest lines of PUSHD's feed: what the most active crypto projects on GitHub just published (new repos, releases, pushes, gists), each with a plain one-line summary, a heat mark and the camp scout's call. Runs ${delay} minutes behind, like the public site. Free. ${NOT_ADVICE}`,
+        description: `The newest lines of PUSHD's feed: what every crypto project on PUSHD's list just published (new repos, releases, pushes, gists), each with a plain one-line summary, a heat mark and the camp scout's call. Runs ${delay} minutes behind, like the public site. Free. ${NOT_ADVICE}`,
         input: {
           properties: {
             limit: { type: "integer", minimum: 1, maximum: 50, default: 20, description: "How many lines, newest first." },
@@ -488,7 +488,7 @@ export class Agent {
           protocolVersion: MCP_VERSIONS.includes(asked) ? asked : MCP_VERSIONS[0],
           capabilities: { tools: { listChanged: false } },
           serverInfo: { name: "pushd", title: "PUSHD", version: "1.0.0" },
-          instructions: `PUSHD watches the public GitHub activity of the most active crypto token projects right now (a ranked list that rotates; GET /v1/top). Free tools run ${this.d.data.publicDelayMinutes} minutes behind. pushd_live and pushd_deep_read are paid per call in ETH to the $PUSHD burn pot: call them without a payment to get the price, pay, then call again with payment {tx, signature}. ${NOT_ADVICE}`,
+          instructions: `PUSHD watches the public GitHub activity of every crypto token project it finds with a live market and code pushed in the last 30 days (a list ranked every hour; GET /v1/top). Free tools run ${this.d.data.publicDelayMinutes} minutes behind. pushd_live and pushd_deep_read are paid per call in ETH to the $PUSHD burn pot: call them without a payment to get the price, pay, then call again with payment {tx, signature}. ${NOT_ADVICE}`,
         });
       }
       case "ping":
@@ -581,7 +581,7 @@ export function openApi(agent: Agent, siteUrl: string) {
     info: {
       title: "PUSHD for agents",
       version: "1.0.0",
-      description: `What the most active crypto projects publish on GitHub, with PUSHD's scouts' calls. Free tools run behind the live feed; paid tools are paid per call in ETH to the $PUSHD burn pot (chain id ${ROBINHOOD_CHAIN_ID}), which buys $PUSHD and burns it. ${NOT_ADVICE}`,
+      description: `What every crypto project that keeps shipping publishes on GitHub, with PUSHD's scouts' calls. Free tools run behind the live feed; paid tools are paid per call in ETH to the $PUSHD burn pot (chain id ${ROBINHOOD_CHAIN_ID}), which buys $PUSHD and burns it. ${NOT_ADVICE}`,
     },
     servers: [{ url: `${siteUrl.replace(/\/+$/, "")}/api/agent` }],
     paths,

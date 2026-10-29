@@ -81,7 +81,7 @@ export function sampleTop(): TopView {
     pool: rows.length,
     rows,
     waiting: [],
-    entered: rows.filter((r) => r.movement === "new").map((r) => ({ at: SAMPLE_AS_OF, handle: r.handle, group: r.group, change: "enter" as const, rank: r.rank, reason: "Sample: ranked in the top 90 for 3 passes in a row." })),
+    entered: rows.filter((r) => r.movement === "new").map((r) => ({ at: SAMPLE_AS_OF, handle: r.handle, group: r.group, change: "enter" as const, rank: r.rank, reason: `Sample: passed, ranked #${r.rank}.` })),
     dropped: last ? [{ at: SAMPLE_AS_OF, handle: "@quietdev", group: "oss", change: "exit", rank: 131, reason: "Sample: activity dropped 70% over 14 days." }] : [],
     byCamp,
     weights: WEIGHTS,

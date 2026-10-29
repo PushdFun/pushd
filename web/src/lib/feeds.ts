@@ -20,7 +20,7 @@ export function toRss(feed: Feed, limit = 50): string {
 <title>PUSHD</title>
 <link>${SITE.url}/feed</link>
 <atom:link href="${SITE.url}/feed.xml" rel="self" type="application/rss+xml"/>
-<description>What the most active crypto projects publish on public GitHub, one plain line each. The public view, a few minutes behind.</description>
+<description>What every crypto project that keeps shipping publishes on public GitHub, one plain line each. The public view, a few minutes behind.</description>
 <language>en</language>
 <lastBuildDate>${new Date(feed.asOf).toUTCString()}</lastBuildDate>
 ${items
@@ -46,7 +46,7 @@ export function toJsonFeed(feed: Feed, limit = 50) {
     title: "PUSHD",
     home_page_url: `${SITE.url}/feed`,
     feed_url: `${SITE.url}/feed.json`,
-    description: "What the most active crypto projects publish on public GitHub, one plain line each. The public view, a few minutes behind.",
+    description: "What every crypto project that keeps shipping publishes on public GitHub, one plain line each. The public view, a few minutes behind.",
     language: "en",
     items: feed.items.slice(0, limit).map((it) => ({
       id: linkOf(it),

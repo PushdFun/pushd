@@ -13,7 +13,7 @@ export const actor = (it: FeedItem) =>
 /** "AI agent projects . Dregg, $DREGG . Sample" */
 export function grpLine(it: FeedItem) {
   const who = it.name ? [it.name, it.org].filter(Boolean).join(", ") : null;
-  return [GROUPS[it.group].label, who, it.sample ? "Sample" : null].filter(Boolean).join(" . ");
+  return [GROUPS[it.group].label, who, it.sample ? "Sample" : null].filter(Boolean).join(" · ");
 }
 
 /** The link to the line on GitHub, or a note when a sample line has nothing real to link to. */

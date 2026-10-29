@@ -27,7 +27,7 @@ function LoopFigure({ n }: { n: number }) {
           </text>
           <rect x="1" y="102" width="250" height="52" rx="6" fill="var(--bg-3)" stroke="var(--accent)" />
           <text x="18" y="134" fill="var(--text)">
-            watcher <tspan fill="var(--muted)">top {n}</tspan>
+            watcher <tspan fill="var(--muted)">{n} projects</tspan>
           </text>
           <rect x="1" y="198" width="250" height="52" rx="6" fill="var(--bg-3)" stroke="var(--line-2)" />
           <text x="18" y="230" fill="var(--text)">
@@ -68,7 +68,7 @@ function LoopFigure({ n }: { n: number }) {
           </text>
         </g>
       </svg>
-      <figcaption>fig 1. the loop, the {n} most active projects</figcaption>
+      <figcaption>fig 1. the loop, every project on the list ({n} now)</figcaption>
     </figure>
   );
 }
@@ -168,8 +168,8 @@ export default async function HowPage() {
             <div className="label">01 &nbsp;THE WATCHER</div>
             <h2>It reads public GitHub activity.</h2>
             <p>
-              PUSHD ranks crypto token projects by their public GitHub activity every hour and watches the {stats.builders} most
-              active right now{stats.pool ? `, out of ${stats.pool.toLocaleString("en-US")} in the pool` : ""}. It only reads what anyone can already see.
+              PUSHD watches every crypto project it finds with a live token, a real market and code pushed in the last 30 days,{" "}
+              {stats.builders} right now, and ranks them by public GitHub activity every hour. It only reads what anyone can already see.
               Anyone else on GitHub can still be looked up on demand.
             </p>
             <p>
@@ -402,7 +402,7 @@ j / k   next / previous line
 o       open the line
 g f     feed        g p  pulse
 g r     replay      g b  brief
-g c     catches     g w  top 100
+g c     catches     g w  the list
 t       theme       s    sound
 ?       all of them`}</pre>
             </div>

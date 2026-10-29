@@ -137,7 +137,7 @@ export default async function GhUserPage({ params }: Props) {
               <div className="v">{num(stars)}</div>
             </div>
             <div>
-              <div className="k">rank in the pool</div>
+              <div className="k">rank on the list</div>
               <div className="v">{p.rank ? `#${p.rank.rank}` : "none"}</div>
             </div>
             <div>
@@ -246,7 +246,7 @@ export default async function GhUserPage({ params }: Props) {
           <div className="panel">
             <div className="ptitle">
               <h3>In the ranking</h3>
-              <span>{p.rank ? `#${p.rank.rank} of the pool` : "not in the pool"}</span>
+              <span>{p.rank ? `#${p.rank.rank} on the list` : "not on the list"}</span>
             </div>
             {p.rank ? (
               <>

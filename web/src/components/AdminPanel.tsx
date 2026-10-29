@@ -95,7 +95,7 @@ export function AdminSuggestions({ list }: { list: Suggestion[] }) {
                   <i className="gdot" />
                   <span>
                     {GROUPS[s.camp].short} . {s.count > 1 ? `${s.count} times . ` : ""}
-                    {agoWords(s.at, now)} . {s.inTop ? "in the Top list" : s.rank ? `#${s.rank} in the pool` : "not in the pool"}
+                    {agoWords(s.at, now)} . {s.inTop ? "on the list" : s.rank ? `#${s.rank} in the pool` : "not in the pool"}
                   </span>
                 </small>
               </div>
