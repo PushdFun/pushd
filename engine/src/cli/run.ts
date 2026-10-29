@@ -45,6 +45,7 @@ const server = createApi({
   scouts: ag.scouts,
   myScouts: ag.myScouts,
   agent: ag.agent,
+  build: ag.build,
   ...pageServices(db, all, (h) => lk.lookup.lookedUp(h)),
 });
 const media = mediaQueue(db);

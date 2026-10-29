@@ -7,12 +7,14 @@
 //     the answer may be (max_tokens) at the output price, so the real cost can only be lower;
 //   - a per-hour cap (PUSHD_SCOUT_HOURLY_USD): the last 60 minutes' spend plus what is in flight plus this estimate;
 //   - a per-model budget (PUSHD_SCOUT_MODEL_CALLS_PER_DAY): calls to one model a UTC day, in flight counted.
+// The same class keeps the agents' own book (src/agents, the agent_spend table, PUSHD_AGENTS_DAILY_USD): a second
+// Budget on another table, so the two caps never eat into each other.
 import { logCost, type DB } from "../db.ts";
 import type { ScoutConfig } from "./config.ts";
 import { roughTokens, type ModelAnswer } from "./provider.ts";
 
-export const SPEND_SCHEMA = `
-CREATE TABLE IF NOT EXISTS scout_spend (
+export const spendSchema = (table: string) => `
+CREATE TABLE IF NOT EXISTS ${table} (
   at INTEGER NOT NULL,
   day TEXT NOT NULL,
   purpose TEXT NOT NULL,
@@ -24,8 +26,9 @@ CREATE TABLE IF NOT EXISTS scout_spend (
   ok INTEGER NOT NULL,
   ref TEXT
 );
-CREATE INDEX IF NOT EXISTS scout_spend_day ON scout_spend(day);
+CREATE INDEX IF NOT EXISTS ${table}_day ON ${table}(day);
 `;
+export const SPEND_SCHEMA = spendSchema("scout_spend");
 
 /** Why a call was not made. */
 export type Refusal = "no key" | "daily cap" | "call cap" | "hourly cap" | "model cap";
@@ -40,30 +43,32 @@ export class Budget {
     private readonly db: DB,
     private readonly c: Pick<ScoutConfig, "dailyUsd" | "callMaxUsd" | "prices"> & Partial<Pick<ScoutConfig, "hourlyUsd" | "modelCallsPerDay">>,
     private readonly now: () => number = Date.now,
+    /** the book's table: scout_spend for the scouts, agent_spend for the agents */
+    private readonly table: "scout_spend" | "agent_spend" = "scout_spend",
   ) {
-    db.exec(SPEND_SCHEMA);
+    db.exec(spendSchema(table));
   }
 
   private day = () => new Date(this.now()).toISOString().slice(0, 10);
 
   /** USD spent today (UTC), every scout call counted. */
   spentToday(): number {
-    return (this.db.prepare("SELECT coalesce(sum(usd), 0) AS s FROM scout_spend WHERE day = ?").get(this.day()) as { s: number }).s;
+    return (this.db.prepare(`SELECT coalesce(sum(usd), 0) AS s FROM ${this.table} WHERE day = ?`).get(this.day()) as { s: number }).s;
   }
 
   callsToday(model?: string): number {
-    if (model) return (this.db.prepare("SELECT count(*) AS n FROM scout_spend WHERE day = ? AND model = ?").get(this.day(), model) as { n: number }).n;
-    return (this.db.prepare("SELECT count(*) AS n FROM scout_spend WHERE day = ?").get(this.day()) as { n: number }).n;
+    if (model) return (this.db.prepare(`SELECT count(*) AS n FROM ${this.table} WHERE day = ? AND model = ?`).get(this.day(), model) as { n: number }).n;
+    return (this.db.prepare(`SELECT count(*) AS n FROM ${this.table} WHERE day = ?`).get(this.day()) as { n: number }).n;
   }
 
   /** USD spent in the last 60 minutes. */
   spentThisHour(): number {
-    return (this.db.prepare("SELECT coalesce(sum(usd), 0) AS s FROM scout_spend WHERE at >= ?").get(this.now() - 3_600_000) as { s: number }).s;
+    return (this.db.prepare(`SELECT coalesce(sum(usd), 0) AS s FROM ${this.table} WHERE at >= ?`).get(this.now() - 3_600_000) as { s: number }).s;
   }
 
   /** Calls to each model today. */
   perModelToday(): { model: string; calls: number; usd: number }[] {
-    return this.db.prepare("SELECT model, count(*) AS calls, round(sum(usd), 6) AS usd FROM scout_spend WHERE day = ? GROUP BY model ORDER BY calls DESC").all(this.day()) as { model: string; calls: number; usd: number }[];
+    return this.db.prepare(`SELECT model, count(*) AS calls, round(sum(usd), 6) AS usd FROM ${this.table} WHERE day = ? GROUP BY model ORDER BY calls DESC`).all(this.day()) as { model: string; calls: number; usd: number }[];
   }
 
   /** The most a call can cost: the prompt at the input price and the longest answer at the output price. */
@@ -105,7 +110,7 @@ export class Budget {
     const usd = a.usd ?? (a.inputTokens * pin + a.outputTokens * pout) / 1_000_000;
     const at = this.now();
     this.db
-      .prepare("INSERT INTO scout_spend (at, day, purpose, model, input_tokens, output_tokens, usd, estimated, ok, ref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+      .prepare(`INSERT INTO ${this.table} (at, day, purpose, model, input_tokens, output_tokens, usd, estimated, ok, ref) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
       .run(at, this.day(), purpose, a.model, a.inputTokens, a.outputTokens, usd, estimated ? 1 : 0, ok ? 1 : 0, ref);
     logCost(this.db, { at: new Date(at).toISOString(), provider: "openrouter", model: a.model, inputTokens: a.inputTokens, outputTokens: a.outputTokens, usd, ref: `${purpose}:${ref}` });
     return usd;

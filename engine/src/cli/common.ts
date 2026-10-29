@@ -24,6 +24,8 @@ import { Pool } from "../rank/pool.ts";
 import { Ranker } from "../rank/ranker.ts";
 import { Registry } from "../registry.ts";
 import { Suggestions } from "../suggest.ts";
+import { agentsConfigFromEnv } from "../agents/config.ts";
+import { buildServices } from "../agents/index.ts";
 
 export const log = (msg: string) => console.log(`${new Date().toISOString().slice(11, 19)}  ${msg}`);
 
@@ -48,8 +50,10 @@ export function setup(dbPath = config.dbPath) {
   const db = openDb(dbPath);
   // the watcher's client: booked to the "watch" share of the hour (src/plan.ts)
   const gh = new GitHub({ db, token: config.githubToken, log, part: "watch" });
-  // the live lists: the Top N now, and everyone known by name (the old hand-made list keeps its lines' names)
-  const registry = new Registry(db, wl.accounts);
+  // the live lists: the Top N now, and everyone known by name (the old hand-made list keeps its lines' names). With
+  // PUSHD Agents on, the scouts' own account keeps its lines in view (their daily builds, src/agents/scoutbuilds.ts)
+  const ac = agentsConfigFromEnv();
+  const registry = new Registry(db, wl.accounts, ac.on && ac.scoutBuilds ? [ac.scoutsOrg] : []);
   // --only a,b,c watches just those handles (from the known list), for a short local check
   const only = arg("only");
   let accounts: WatchEntry[] = registry.top;
@@ -164,5 +168,7 @@ export function agentServices(db: ReturnType<typeof openDb>, all: WatchEntry[], 
   };
   const payments = new Payments({ db, chain: viemPaymentChain(token.config.rpcUrl), payTo: token.config.pot, switchOn: sc.agent.paidSwitch, maxAgeMs: sc.agent.payMaxAgeMs });
   log(payments.open ? "agent API: paid tools open, payments go to the burn pot" : "agent API: free tools on; paid tools open at launch (no burn pot set)");
-  return { scouts, myScouts, agent: { payments, config: sc.agent, siteUrl: token.config.holder.siteUrl }, stop: () => (stopScouts(), stopMine()) };
+  // PUSHD Agents: anyone's own agent on GitHub (src/agents); off unless PUSHD_AGENTS=on. Paid runs go to the same burn pot
+  const build = buildServices({ db, token, payments, provider, push, trustProxy: sc.agent.trustProxy, log });
+  return { scouts, myScouts, agent: { payments, config: sc.agent, siteUrl: token.config.holder.siteUrl }, build, stop: () => (stopScouts(), stopMine(), build?.stop()) };
 }

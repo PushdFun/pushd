@@ -39,6 +39,7 @@ const server = createApi({
   scouts: ag.scouts,
   myScouts: ag.myScouts,
   agent: ag.agent,
+  build: ag.build,
   ...pageServices(db, all, (h) => lk.lookup.lookedUp(h)),
 });
 server.listen(config.port, config.host, () => log(`feed API on http://${config.host}:${config.port} (public delay ${config.publicDelayMinutes} min, ${registry.top.length} watched)`));

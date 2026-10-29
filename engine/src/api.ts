@@ -42,6 +42,7 @@
 //   GET|POST /v1/holders/watch, DELETE /v1/holders/watch/:login   a holder's added accounts (src/holderwatch.ts)
 //   POST /v1/suggestions         { login, camp, why } -> { ok, already, message }   (src/suggest.ts)
 //   GET /v1/admin/suggestions, POST /v1/admin/suggestions/:id, GET /v1/admin/status   x-pushd-admin-key only
+//   /v1/build/*                  PUSHD Agents (src/agents/routes.ts): only with PUSHD_AGENTS=on, otherwise 404
 // Every list runs the public delay (5 minutes) by default. ?delay=0 (or any delay under the public one) needs either
 // the x-pushd-live-key header matching PUSHD_LIVE_KEY, or `Authorization: Bearer <session>` for a signed-in wallet that
 // holds $PUSHD at the threshold right now; without one the answer is 401.
@@ -70,6 +71,7 @@ import { WatchError, type HolderWatch } from "./holderwatch.ts";
 import { LookupError, type Lookup } from "./lookup.ts";
 import { schedulePlan } from "./plan.ts";
 import type { Ranker } from "./rank/ranker.ts";
+import type { BuildServices } from "./agents/index.ts";
 import { whoOf } from "./registry.ts";
 import { adminOk, SuggestError, type Suggestions } from "./suggest.ts";
 import { sourceCalls } from "./rank/store.ts";
@@ -113,6 +115,8 @@ export type ApiOptions = {
   myScouts?: ((toItem: (it: StoredItem) => FeedItem) => MyScouts) | null;
   /** PUSHD for AI agents (src/agent): MCP, REST and pay per call; without it /mcp and /v1/agent answer 404 */
   agent?: { payments: Payments; config: ScoutConfig["agent"]; siteUrl: string } | null;
+  /** PUSHD Agents (src/agents): anyone's own agent on GitHub; null (every /v1/build route a 404) unless switched on */
+  build?: Pick<BuildServices, "routes" | "shipped"> | null;
 };
 
 const GROUPS: GroupKey[] = ["chain", "wallets", "launchpads", "ai", "oss"];
@@ -166,7 +170,9 @@ export function createApi(o: ApiOptions): Server {
     const f = toFeedItem(it, a ? { name: a.name, org: a.org !== a.name ? a.org : undefined } : undefined, o.mediaDir ? mediaUrlFor(o.db, it) : null);
     const call = o.scouts?.callOf(it.id);
     const withToken = a?.token ? { ...f, token: a.token } : f;
-    return call ? { ...withToken, call } : withToken;
+    // shipped with a PUSHD agent: a commit, a merge or a release an agent made
+    const tagged = o.build?.shipped(it) ? { ...withToken, agent: true } : withToken;
+    return call ? { ...tagged, call } : tagged;
   };
   const myScouts = o.myScouts ? o.myScouts(feedItem) : null;
   const cutoff = (delayMin: number) => new Date(now() - delayMin * 60_000).toISOString();
@@ -425,6 +431,10 @@ export function createApi(o: ApiOptions): Server {
     const keyHeader = Array.isArray(key) ? key[0] : key;
 
     if (agent && (p === "/mcp" || p.startsWith("/v1/agent")) && (await agent.handle(req, res, p, url, (max) => anyBody(req, max)))) return;
+    if (p === "/v1/build" || p.startsWith("/v1/build/")) {
+      if (o.build && (await o.build.routes.handle(req, res, p, url))) return;
+      throw new HttpError(404, "not found");
+    }
     if (req.method === "OPTIONS") {
       res.writeHead(204, { "access-control-allow-origin": "*", "access-control-allow-headers": "x-pushd-live-key", "access-control-allow-methods": "GET" });
       return res.end();

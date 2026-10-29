@@ -58,6 +58,8 @@ export class Registry {
     private readonly db: DB,
     /** the old hand-made list: names for the lines it made */
     private readonly legacy: WatchEntry[] = [],
+    /** accounts whose lines stay in view outside the pool: the scouts' own account (src/agents/scoutbuilds.ts) */
+    private readonly pinned: string[] = [],
   ) {
     ensureRankSchema(db);
     this.refresh();
@@ -85,7 +87,8 @@ export class Registry {
     // view, once the ranking has a list to show instead
     if (top.length) {
       const pool = new Set((this.db.prepare("SELECT login FROM pool").all() as { login: string }[]).map((r) => r.login));
-      hideOutside(this.db, (h) => pool.has(h.toLowerCase()));
+      const pins = new Set(this.pinned.map((p) => p.toLowerCase()));
+      hideOutside(this.db, (h) => pool.has(h.toLowerCase()) || pins.has(h.toLowerCase()));
     }
     return changed;
   }

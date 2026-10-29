@@ -67,6 +67,9 @@ export const SAFETY_RULES = [
 const ADVICE = /\b(profit|profits|profitable|100x|10x|1000x|bullish|bearish|undervalued|overvalued|guaranteed|to the moon|mooning|financial advice|ape in|aping|invest in|investment opportunity|price (target|prediction|will|could|should|is going)|(buy|sell|trade|hold|ape|get in)\s+(signal|now|it|this|early)|(should|worth|time to|consider|chance to)\s+(buy|sell|trade|ape|get in|invest))\b/i;
 const SPEAKS_FOR = /\b(he|she|they|founder|author|creator|dev|developer|maintainer|team)\s+(says|said|thinks|thought|believes|feels|felt|wants|wanted|plans|planned|intends|intended|hopes|hoped|promises|promised|announced|teases|teased|hints|hinted)\b/i;
 
+/** Buy, sell or price talk (the same words checkText refuses), for the agents' longer texts. */
+export const looksLikeAdvice = (s: string) => ADVICE.test(s);
+
 export type CheckedText = { ok: true; text: string } | { ok: false; why: string };
 
 /** One sentence or two of plain text, from the model, held to the rules. `source` is everything the scout read. */
