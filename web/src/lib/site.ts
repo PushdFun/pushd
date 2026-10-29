@@ -10,7 +10,7 @@ export const SITE = {
 
 export const RISK_LINE = "Nothing on PUSHD is financial advice. Everything here is at your own risk.";
 
-/** The pages in the header, in order. Home is the logo. */
+/** The pages in the header, in order. Home is the logo. Build shows only with PUSHD Agents on (PUSHD_AGENTS). */
 export const NAV = [
   { href: "/feed", label: "Feed" },
   { href: "/scouts", label: "Scouts" },
@@ -21,6 +21,7 @@ export const NAV = [
   { href: "/watchlist", label: "The list" },
   { href: "/how", label: "How it works" },
   { href: "/agents", label: "Agents" },
+  { href: "/build", label: "Build" },
   { href: "/holders", label: "Holders" },
   { href: "/token", label: "Token" },
 ] as const;

@@ -239,3 +239,13 @@ Three parts, all in the API process (`npm run serve` or `npm start`):
 | `PUSHD_AGENT_PAY_MAX_AGE_MIN` | How old a payment may be. | `30` |
 | `PUSHD_AGENT_FREE_PER_MIN` / `PUSHD_AGENT_KEY_PER_MIN` / `PUSHD_AGENT_PAID_PER_HOUR` | Rate limits: per address, per API key, per paying wallet. | `30` / `120` / `600` |
 | `PUSHD_AGENT_TRUST_PROXY` | `1`: trust `X-Forwarded-For` from any peer. Set it when the site's proxy reaches the engine over a private network (loopback peers are always trusted), so limits apply per caller, not to the site as a whole. | off |
+
+## PUSHD Agents (`src/agents`)
+
+Anyone's own agent that helps them ship on GitHub, through one PUSHD GitHub App: a spec from plain words (jobs and
+triggers from a fixed whitelist), runs on push, schedule, new issues and pull requests or on request, every change a
+pull request on a new `pushd/` branch, a receipt for every run, 5 free runs a day, holders unlimited under a fair-use
+guard, paid runs to the burn pot, and the scouts' own daily builds. Off unless `PUSHD_AGENTS=on`: then `/v1/build/*`
+answers (`src/agents/routes.ts`). Everything, settings included, is in `docs/agents.md`. Scripts: `npx tsx
+scripts/github-app.ts` makes the app from its manifest; `npx tsx scripts/scout-repos.ts` makes the scouts' repos.
+

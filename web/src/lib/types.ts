@@ -47,6 +47,8 @@ export type FeedItem = {
   extra?: boolean;
   /** the project's token (symbol, chain, address, its DexScreener page): every watched project has one */
   token?: RankToken;
+  /** shipped with a PUSHD agent: a commit, merge or release an agent made (engine/src/agents) */
+  agent?: boolean;
 };
 
 // ---- the scouts: one AI agent per camp, its call on each line and its public record (engine: src/scouts) ----

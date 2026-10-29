@@ -11,8 +11,9 @@ import { ThemeToggle } from "./ThemeToggle";
 
 const isCurrent = (path: string, href: string) => (href === "/" ? path === "/" : path === href || path.startsWith(href + "/"));
 
-// The header's links: the site's pages without the list (its page stays, reached from the pulse and the palette).
-const LINKS = NAV.filter((n) => n.href !== "/watchlist");
+// The header's links: the site's pages without the list (its page stays, reached from the pulse and the palette), and
+// Build only while PUSHD Agents is switched on.
+const linksFor = (build: boolean) => NAV.filter((n) => n.href !== "/watchlist" && (build || n.href !== "/build"));
 
 /**
  * The buy button: until $PUSHD exists it leads to the token page and says it is launching soon; once it exists, to
@@ -32,8 +33,9 @@ export function BuyButton({ href, title = true }: { href: string | null; title?:
   );
 }
 
-export function Header({ buyHref = null }: { buyHref?: string | null }) {
+export function Header({ buyHref = null, build = false }: { buyHref?: string | null; build?: boolean }) {
   const path = usePathname() ?? "/";
+  const LINKS = linksFor(build);
   const [open, setOpen] = useState(false);
   const menuBtn = useRef<HTMLButtonElement>(null);
 

@@ -63,7 +63,7 @@ export type RunCtx = {
 const ZERO = /^0+$/;
 const short = (sha: string) => sha.slice(0, 7);
 const day = (now: number) => new Date(now).toISOString().slice(0, 10);
-const subject = (m: string) => maskSecrets(m.split("\n")[0].replace(/[–—]/g, "-").trim()).slice(0, 120);
+const subject = (m: string) => maskSecrets(m.split("\n")[0].replace(/[\u2013\u2014]/g, "-").trim()).slice(0, 120);
 const branchFor = (c: RunCtx, what: string) => `${BRANCH_PREFIX}${what}-${c.run.id.slice(0, 8)}`;
 
 const footer = (c: RunCtx) => `\n\n---\nOpened by a PUSHD agent for @${c.owner.login}, on a new branch. Nothing was pushed to the default branch. Read it before you merge.\nWhat this agent shipped: ${c.proofUrl}`;
@@ -259,7 +259,7 @@ async function smallChange(c: RunCtx): Promise<JobResult> {
     }
     const before = files.find((f) => f.path === p)?.text;
     if (before === ed.content) continue;
-    edits.push({ path: p, content: ed.content.replace(/[–—]/g, "-") });
+    edits.push({ path: p, content: ed.content.replace(/[\u2013\u2014]/g, "-") });
   }
   if (refused.length) flags.push(`Left out: ${refused.join("; ")}.`);
   const summary = cleanBlock(a.json.summary, { max: 600, lines: 8, repo: c.run.repo }) ?? "A small change on request.";
@@ -522,7 +522,7 @@ async function docsKeeper(c: RunCtx): Promise<JobResult> {
   const flags = a.removed || a.json.injection === true ? ["Text in the repo tried to give instructions to an AI. It was ignored."] : [];
   const reasons = (Array.isArray(a.json.reasons) ? a.json.reasons : []).map((r) => cleanBlock(r, { max: 200, lines: 1, repo: c.run.repo })).filter((r): r is string => !!r).slice(0, 5);
   if (a.json.drift !== true) return { summary: "The README matches the code.", outputs: [], flags };
-  const next = typeof a.json.readme === "string" ? a.json.readme.replace(/[–—]/g, "-") : "";
+  const next = typeof a.json.readme === "string" ? a.json.readme.replace(/[\u2013\u2014]/g, "-") : "";
   if (!next || next === readme.text || next.length < readme.text.length * 0.5 || next.length > readme.text.length * 3 + 2000 || findSecrets(next).length > findSecrets(readme.text).length) {
     return { summary: "The README has drifted, but the rewrite did not pass the checks; no pull request.", outputs: reasons.length ? [{ type: "draft", title: "Where the README drifted", text: reasons.map((r) => `- ${r}`).join("\n") }] : [], flags: [...flags, "The new README was refused (too short, too long, unchanged or with a key in it)."] };
   }

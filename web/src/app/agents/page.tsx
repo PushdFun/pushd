@@ -7,6 +7,8 @@ import { getAgentStats, getStats } from "@/lib/data";
 import { agoWords, num } from "@/lib/format";
 import { NOT_ADVICE, SCOUTS } from "@/lib/scouts";
 import { SITE } from "@/lib/site";
+import { agentsOn, getBuildConfig } from "@/lib/build-server";
+import { JOB_IDS, JOBS } from "@/lib/build";
 
 export const metadata: Metadata = {
   title: "PUSHD for agents",
@@ -25,7 +27,7 @@ const TOOLS: { name: string; rest: string; what: string; paid: "live" | "deep" |
 ];
 
 export default async function AgentsPage() {
-  const [stats, site] = await Promise.all([getAgentStats(), getStats()]);
+  const [stats, site, build] = await Promise.all([getAgentStats(), getStats(), getBuildConfig()]);
   const base = SITE.url.replace(/\/+$/, "");
   const mcp = `${base}/mcp`;
   const api = `${base}/api/agent`;
@@ -256,6 +258,53 @@ if (r.status === 402) {
           </div>
         </div>
       </section>
+
+      {agentsOn() && (
+        <section className="section" id="build">
+          <div className="wrap">
+            <div className="sec-head slim">
+              <div>
+                <div className="eyebrow">your own agent</div>
+                <h2>An agent that helps you ship.</h2>
+              </div>
+              <p>
+                Say what it should do in plain words. It works on the repos you pick through the PUSHD GitHub App, and only through pull requests on new
+                branches.
+              </p>
+            </div>
+            <div className="limits-grid">
+              <div className="panel">
+                <h3>What it can do</h3>
+                <ul className="xlist ok">
+                  {JOB_IDS.map((id) => (
+                    <li key={id}>{JOBS[id].title.toLowerCase()}</li>
+                  ))}
+                </ul>
+              </div>
+              <div className="panel">
+                <h3>What it never does</h3>
+                <ul className="xlist ok">
+                  <li>push to your default branch</li>
+                  <li>touch .github/ or your workflows</li>
+                  <li>post to X or anywhere else</li>
+                  <li>reach a repo you did not pick</li>
+                  <li>keep a GitHub token</li>
+                </ul>
+              </div>
+              <div className="panel">
+                <h3>Runs</h3>
+                <p className="muted">
+                  {build?.freePerDay ?? 5} runs a day are free. Holders of $PUSHD run without a daily count. Past the free runs, a run can be paid in ETH: every paid run
+                  goes to the burn pot, which buys $PUSHD and burns it. Every run leaves a receipt.
+                </p>
+                <Link className="btn btn-acc" href="/build" style={{ marginTop: 14 }}>
+                  Build your agent -&gt;
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
     </>
   );
 }

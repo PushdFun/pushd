@@ -82,7 +82,7 @@ export function checkSpec(input: unknown, installed: string[], o: { strict?: boo
   const i = input as Record<string, unknown>;
   for (const k of Object.keys(i)) if (!SPEC_KEYS.has(k)) bad(`Unknown field "${k.slice(0, 20)}".`);
 
-  const name = typeof i.name === "string" ? cleanLine(i.name).replace(/https?:\/\/\S+/g, "").replace(/\s+/g, " ").trim().slice(0, SPEC_LIMITS.name) : "";
+  const name = typeof i.name === "string" ? cleanLine(i.name).replace(/[.!?]+$/, "").replace(/https?:\/\/\S+/g, "").replace(/\s+/g, " ").trim().slice(0, SPEC_LIMITS.name) : "";
   if (name.length < 2) {
     if (strict) throw new SpecError("Give the agent a name.");
   }

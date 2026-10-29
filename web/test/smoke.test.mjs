@@ -12,7 +12,7 @@ const PAGES = {
   "/": /Know the moment builders\s*push/,
   "/feed": /The feed\./,
   "/catches": /Catches\./,
-  "/watchlist": /most active/i,
+  "/watchlist": /^Top \d+\.$/,
   "/gh": /Look up anyone\./,
   "/admin/suggestions": /Admin\./,
   "/how": /How it works\./,
@@ -62,38 +62,47 @@ const freePort = () =>
     });
   });
 
-before(async () => {
-  assert.ok(existsSync(ROOT + ".next/BUILD_ID"), "run `npm run build` first");
+/** `next start` on a free port with these settings; resolves once it answers. */
+async function startSite(env) {
   const port = await freePort();
-  BASE = `http://127.0.0.1:${port}`;
-  server = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "-p", String(port), "-H", "127.0.0.1"], {
+  const proc = spawn(process.execPath, ["node_modules/next/dist/bin/next", "start", "-p", String(port), "-H", "127.0.0.1"], {
     cwd: ROOT,
     stdio: ["ignore", "pipe", "pipe"],
     detached: true,
-    env: { ...process.env, PUSHD_ENGINE_URL: "" },
+    env: { ...process.env, PUSHD_ENGINE_URL: "", PUSHD_AGENTS: "", ...env },
   });
-  server.stdout.resume();
-  server.stderr.resume();
+  proc.stdout.resume();
+  proc.stderr.resume();
+  const base = `http://127.0.0.1:${port}`;
   // wait until it answers, not a fixed time
   const until = Date.now() + 30_000;
   for (;;) {
     try {
-      await fetch(BASE + "/robots.txt");
+      await fetch(base + "/robots.txt");
       break;
     } catch {
       if (Date.now() > until) throw new Error("the site did not start");
       await new Promise((r) => setTimeout(r, 150));
     }
   }
+  return { proc, base };
+}
+const stopSite = (proc) => {
+  try {
+    process.kill(-proc.pid, "SIGTERM");
+  } catch {
+    proc.kill("SIGTERM");
+  }
+};
+
+before(async () => {
+  assert.ok(existsSync(ROOT + ".next/BUILD_ID"), "run `npm run build` first");
+  const s = await startSite({});
+  server = s.proc;
+  BASE = s.base;
 });
 
-after(() => {
-  try {
-    process.kill(-server.pid, "SIGTERM");
-  } catch {
-    server.kill("SIGTERM");
-  }
-});
+after(() => stopSite(server));
 
 test("every page answers 200 with its main heading, the nav, the buy placeholder, and none of the owner's never-words", async () => {
   for (const [path, heading] of Object.entries(PAGES)) {
@@ -223,7 +232,8 @@ test("only the real builder's lines link to GitHub", async () => {
   // bunker_coin is a 2024 paper, never a 27 Oct push: it must not appear anywhere.
   assert.equal((await get("/feed")).html.includes("bunker_coin"), false);
   const made = await get("/feed/frog-oracle");
-  assert.doesNotMatch(made.html, /href="https:\/\/github\.com\//);
+  // the header's own link to PUSHD's GitHub is not a builder's line
+  assert.doesNotMatch(made.html.replace(/href="https:\/\/github\.com\/PushdFun\/pushd"/g, ""), /href="https:\/\/github\.com\//);
 });
 
 test("the token: only the burn; launching soon; no address before launch; never the tax, the chain or the fee split", async () => {
@@ -393,4 +403,46 @@ test("the scouts, my scout and the agents page without an engine: honest empty s
   const mcp = await fetch(BASE + "/mcp", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "ping" }) });
   assert.equal(mcp.status, 503);
   assert.equal((await fetch(BASE + "/api/agent/../../etc")).status, 404);
+});
+
+test("PUSHD Agents switched off (no PUSHD_AGENTS): every page and route of it is a 404 and the nav has no Build", async () => {
+  for (const path of ["/build", "/build/0123456789abcdef", "/shipped/alice/thing", "/shipped/alice/thing/badge", "/api/build/me", "/api/build/github/login", "/api/build/github/callback?code=x&state=y"]) assert.equal((await get(path)).status, 404, path);
+  for (const [m, path] of [["POST", "/api/build/github/webhook"], ["POST", "/api/build/draft"], ["POST", "/api/build/signout"]]) assert.equal((await fetch(BASE + path, { method: m })).status, 404, `${m} ${path}`);
+  for (const path of ["/", "/feed", "/agents"]) {
+    const { html } = await get(path);
+    assert.doesNotMatch(html, /href="\/build"/, `${path} has no Build link`);
+    assert.doesNotMatch(text(html), /shipped with a PUSHD agent|Build your agent/, `${path} says nothing about agents`);
+  }
+});
+
+test("PUSHD Agents switched on with no engine: the Build page says so plainly, the routes refuse, nothing pretends", async () => {
+  const on = await startSite({ PUSHD_AGENTS: "on" });
+  try {
+    const r = await fetch(on.base + "/build");
+    assert.equal(r.status, 200);
+    const html = await r.text();
+    assert.match(h1(html), /^Build your agent\.$/);
+    assert.match(text(html), /The engine is not connected here/);
+    assert.match(html, /href="\/build" aria-current="page"|aria-current="page" href="\/build"/, "Build is in the nav and marked");
+    for (const job of ["Release notes", "What shipped post", "Key check", "Small changes", "Pull request review", "Issue helper", "Weekly report", "Dependency watch", "Release maker", "Docs keeper"]) assert.ok(text(html).includes(job), `/build lists ${job}`);
+    assert.match(text(html), /never pushes to your default branch, never touches workflows and never posts to X/);
+    assert.doesNotMatch(html, DASHES);
+    const copy = text(html).replace(/Robinhood Chain( projects)?|robinhood\//g, "");
+    for (const re of [...NEVER, ...FORBIDDEN]) assert.doesNotMatch(copy, re, `/build says ${re}`);
+    assert.doesNotMatch(copy, /\$\s?\d+(\.\d+)?\s?(a|per) day|daily (cap|budget)|cap of/i, "no cap is shown");
+    const agents = await (await fetch(on.base + "/agents")).text();
+    assert.match(text(agents), /An agent that helps you ship\./);
+    assert.doesNotMatch(agents, DASHES);
+    assert.equal((await fetch(on.base + "/api/build/me")).status, 503, "no engine: the API says so");
+    assert.equal((await fetch(on.base + "/api/build/agents/xyz")).status, 404, "an unknown path never reaches the engine");
+    assert.equal((await fetch(on.base + "/api/build/github/webhook", { method: "POST", body: "{}" })).status, 404);
+    assert.equal((await fetch(on.base + "/shipped/alice/thing")).status, 404, "nothing shipped: no page");
+    const login = await fetch(on.base + "/api/build/github/login", { redirect: "manual" });
+    assert.ok([302, 307].includes(login.status));
+    assert.match(login.headers.get("location") ?? "", /\/build\?signin=off$/);
+    const cb = await fetch(on.base + "/api/build/github/callback?code=abc&state=nope", { redirect: "manual" });
+    assert.match(cb.headers.get("location") ?? "", /\/build\?signin=again$/, "a state this browser was not given is refused");
+  } finally {
+    stopSite(on.proc);
+  }
 });

@@ -64,6 +64,7 @@ export default async function ItemPage({ params }: Props) {
                 <b>{ago(item.githubAt, asOf)}</b> ago
               </span>
               {item.sample && <span className="tag sample">Sample</span>}
+              {item.agent && <span className="tag acc">shipped with a PUSHD agent</span>}
             </div>
           </div>
         </div>

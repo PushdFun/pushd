@@ -21,6 +21,7 @@ PUSHD only shows public information. It never trades and nothing on it is advice
 | `web/` | The site (Next.js). |
 | `contracts/` | The token's contracts: the burn pot that launches $PUSHD on Pons and burns it, and the splitter the trading fees are paid to. Foundry. |
 | `docs/token.md` | How the token is deployed and launched. |
+| `docs/agents.md` | PUSHD Agents: anyone's own agent on GitHub, the GitHub App, its settings and switch. Off unless `PUSHD_AGENTS=on`. |
 
 ## Run it
 

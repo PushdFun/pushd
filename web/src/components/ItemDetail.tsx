@@ -50,6 +50,12 @@ export function ItemDetail({ item, asOf, links, scout = true }: { item: FeedItem
             <dd>{ago(item.githubAt, asOf)} ago, public view</dd>
             <dt>summary</dt>
             <dd>written from the repo only</dd>
+            {item.agent && (
+              <>
+                <dt>made by</dt>
+                <dd className="acc">shipped with a PUSHD agent</dd>
+              </>
+            )}
             {item.call && (
               <>
                 <dt>scout</dt>

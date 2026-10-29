@@ -72,6 +72,7 @@ export function FeedList({ items, asOf, matches, reset, live = false, fresh = []
                       {grpLine(it)}
                     </span>
                     {it.call && <ScoutTag call={it.call} />}
+                    {it.agent && <span className="agent-tag">shipped with a PUSHD agent</span>}
                   </span>
                   <Heat heat={it.heat} />
                   <span className="chev" aria-hidden="true">

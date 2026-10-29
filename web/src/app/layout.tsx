@@ -8,6 +8,7 @@ import { AppShell } from "@/components/AppShell";
 import { Palette } from "@/components/Palette";
 import { SoundPlayer } from "@/components/Sound";
 import { getBuyLink } from "@/lib/data";
+import { agentsOn } from "@/lib/build-server";
 import { SITE } from "@/lib/site";
 import "./globals.css";
 // one stylesheet per part of the site, after the base look
@@ -16,6 +17,7 @@ import "./styles/days.css";
 import "./styles/app.css";
 import "./styles/scouts.css";
 import "./styles/lookup.css";
+import "./styles/build.css";
 
 // The heat bars use the block glyph, which JetBrains Mono's web subsets leave out: it must fall through to the
 // system monospace (as in the design), not to next/font's metric-matched Arial, so the mono face has no adjusted fallback.
@@ -57,7 +59,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
       </head>
       <body>
-        <Header buyHref={buy.href} />
+        <Header buyHref={buy.href} build={agentsOn()} />
         <main>{children}</main>
         <Footer />
         <HolderLive />

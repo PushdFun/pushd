@@ -12,7 +12,7 @@
 // camp, tagged as shipped with a PUSHD agent.
 import { insertItem, type DB } from "../db.ts";
 import { SCOUT_SCHEMA } from "../scouts/scouts.ts";
-import { SCOUTS, SCOUT_BY_ID, type Scout } from "../scouts/roster.ts";
+import { SCOUTS, SCOUT_BY_ID } from "../scouts/roster.ts";
 import type { ScoutId } from "../types.ts";
 import { Agents, AgentsError, SYSTEM_USER } from "./agents.ts";
 import { cleanBlock, cleanTitle, JobError } from "./ask.ts";
@@ -29,7 +29,7 @@ const BUILD_HOUR = 12;
 const dayOf = (t: number) => new Date(t).toISOString().slice(0, 10);
 
 /** Plain starting ideas for a round no build has proposed yet. */
-const FIRST_IDEAS = (s: Scout) => [`A script that lists the day's new repos it read`, `A small dataset of this week's releases it saw`, `A tool that checks a README for setup steps`].map((x) => `${x} (${s.name})`);
+const FIRST_IDEAS = [`A script that lists the day's new repos in its camp`, `A small dataset of this week's releases it read`, `A tool that checks a README for setup steps`];
 
 export type ScoutBuildsDeps = {
   db: DB;
@@ -85,7 +85,7 @@ export class ScoutBuilds {
 
   private options(id: ScoutId, round: string): string[] {
     const r = this.d.db.prepare("SELECT options FROM scout_rounds WHERE scout = ? AND round = ?").get(id, round) as { options: string } | undefined;
-    return r ? (JSON.parse(r.options) as string[]) : FIRST_IDEAS(SCOUT_BY_ID.get(id)!);
+    return r ? (JSON.parse(r.options) as string[]) : FIRST_IDEAS;
   }
 
   view(wallet: string | null): ScoutBuildView[] {
@@ -183,7 +183,7 @@ export class ScoutBuilds {
       const x = f as { name?: unknown; content?: unknown };
       if (typeof x.name !== "string" || !/^[A-Za-z0-9][A-Za-z0-9._-]{0,59}$/.test(x.name) || /^readme\.md$/i.test(x.name)) continue;
       if (typeof x.content !== "string" || !x.content.trim() || x.content.length > 20_000 || findSecrets(x.content).length) continue;
-      files.push({ path: safePath(`${folder}/${x.name}`), content: x.content.replace(/[–—]/g, "-") });
+      files.push({ path: safePath(`${folder}/${x.name}`), content: x.content.replace(/[\u2013\u2014]/g, "-") });
     }
     if (!files.length) return { summary: "No build today: nothing the model made passed the checks.", outputs: [], flags };
     const readme = [`# ${title}`, "", summary, "", `Built by ${s.name} (${s.modelName}) on ${today}, inspired by what it watched that day on PUSHD.`, picked ? `Holders voted for: ${picked}` : "", "", "Files:", ...files.map((f) => `- ${f.path.slice(folder.length + 1)}`), ""].filter((l, i, arr) => !(l === "" && arr[i - 1] === "")).join("\n");
@@ -202,7 +202,7 @@ export class ScoutBuilds {
       c.act({ action: "merge", url: pr.url, sha: m.sha, note: `#${pr.number}` });
     }
     const next = (Array.isArray(a.json.next_ideas) ? a.json.next_ideas : []).map((x) => cleanTitle(x, 70)).filter((x): x is string => !!x).slice(0, 3);
-    this.d.db.prepare("INSERT OR REPLACE INTO scout_rounds (scout, round, options) VALUES (?, ?, ?)").run(s.id, dayOf(c.now() + DAY), JSON.stringify(next.length === 3 ? next : FIRST_IDEAS(s)));
+    this.d.db.prepare("INSERT OR REPLACE INTO scout_rounds (scout, round, options) VALUES (?, ?, ?)").run(s.id, dayOf(c.now() + DAY), JSON.stringify(next.length === 3 ? next : FIRST_IDEAS));
     return { summary: `${title}: ${files.length} file${files.length === 1 ? "" : "s"} in ${folder}.`, outputs, flags };
   };
 
@@ -214,7 +214,7 @@ export class ScoutBuilds {
     const after = String(p.after ?? "");
     if (!m || !/^[0-9a-f]{40}$/.test(after)) return;
     const s = SCOUT_BY_ID.get(m[3].toLowerCase() as ScoutId)!;
-    const msg = maskSecrets(String(p.head_commit?.message ?? "").split("\n")[0]).replace(/[–—]/g, "-").replace(/\s+/g, " ").trim();
+    const msg = maskSecrets(String(p.head_commit?.message ?? "").split("\n")[0]).replace(/[\u2013\u2014]/g, "-").replace(/\s+/g, " ").trim();
     const nowIso = new Date(this.now()).toISOString();
     const at = Date.parse(String(p.head_commit?.timestamp ?? "")) || this.now();
     const run = this.d.db.prepare("SELECT id FROM agent_runs WHERE agent_id = ? AND job = 'scout_build' ORDER BY created_at DESC LIMIT 1").get(`scout-${s.id}`) as { id: string } | undefined;

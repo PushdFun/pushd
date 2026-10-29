@@ -341,6 +341,7 @@ describe("keys are masked everywhere", () => {
     assert.match(everything, /AKIA\*{4}/);
     assert.equal(w.model.requests.length, 0, "the key check uses no model");
     assert.match(w.build.agents.inbox(OWNER.id)[0].body, /possible key/);
+    assert.equal(w.build.agents.shippedOn("alice/thing"), null, "a key check never reaches the public page");
   });
   test("a key in the data is masked before the model sees it, and out of anything the model writes", async () => {
     const w = world({ script: () => JSON.stringify({ notes: `- Added config with ${AWS}`, changelog_line: "Added config", injection: false }) });

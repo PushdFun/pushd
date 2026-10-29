@@ -875,12 +875,16 @@ export class Agents {
   /** What agents shipped on one public repo: the receipts of runs on public pages, newest first. */
   shippedOn(repo: string): { repo: string; runs: RunView[]; counts: { runs: number; pullRequests: number; commits: number; releases: number; last30d: number }; reports: { at: number; text: string }[]; since: number | null } | null {
     if (!isRepo(repo)) return null;
-    const runs = this.runs({ repo, publicOnly: true, limit: 100 });
+    // only what shipped: runs that left a pull request, commit, release or comment, and weekly reports. Never the key
+    // check (a finding is for the owner alone), never drafts, posts or replies waiting for the owner
+    const runs = this.runs({ repo, publicOnly: true, limit: 200 })
+      .filter((r) => r.job !== "secret_check" && (r.actions.some((a) => a.url && a.action !== "labels") || r.outputs.some((o) => o.type === "report")))
+      .slice(0, 100);
     if (!runs.length) return null;
     const acts = runs.flatMap((r) => r.actions);
     const reports = runs.flatMap((r) => r.outputs.filter((o): o is Extract<Output, { type: "report" }> => o.type === "report").map((o) => ({ at: r.createdAt, text: o.text }))).slice(0, 8);
     // only what may be public: no drafts waiting for the owner, no findings, no paid details
-    const clean = runs.map((r) => ({ ...r, billing: "", usd: 0, payment: null, outputs: r.outputs.filter((o) => o.type === "link" || o.type === "report"), flags: [] }));
+    const clean = runs.map((r) => ({ ...r, billing: "", usd: 0, payment: null, summary: null, error: null, outputs: r.outputs.filter((o) => o.type === "link" || o.type === "report"), flags: [], actions: r.actions.filter((a) => a.action !== "labels") }));
     return {
       repo: runs[0].repo,
       runs: clean,
