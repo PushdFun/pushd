@@ -149,25 +149,35 @@ export function rankConfigFromEnv(env: Env = process.env, authenticated = false)
       chains: list(env.PUSHD_POOL_CHAINS).length ? list(env.PUSHD_POOL_CHAINS) : ["solana", "base", "robinhood", "ethereum", "arbitrum", "bsc"],
       geckoCategories: list(env.PUSHD_POOL_GECKO_CATEGORIES).length
         ? list(env.PUSHD_POOL_GECKO_CATEGORIES)
-        : ["pump-fun", "solana-meme-coins", "ai-agents", "ai-agent-launchpad", "ai-meme-coins", "ai-framework", "base-meme-coins", "base-native", "robinhood-ecosystem", "robinhood-chain-meme", "virtuals-protocol-ecosystem", "launchpad", "metadao-launchpad"],
+        : [
+            ...["pump-fun", "pump-fun-creator", "letsbonk-fun-ecosystem", "believe-app-ecosystem", "solana-meme-coins", "solana-ecosystem", "meme-token"],
+            ...["ai-agents", "ai-agent-launchpad", "ai-meme-coins", "ai-framework", "ai-applications", "artificial-intelligence", "virtuals-protocol-ecosystem", "x402-ecosystem"],
+            ...["base-meme-coins", "base-native", "base-ecosystem", "zora-ecosystem", "flaunch-ecosystem", "robinhood-ecosystem", "robinhood-chain-meme"],
+            ...["launchpad", "metadao-launchpad", "trading-bots", "decentralized-exchange", "dex-aggregator", "decentralized-finance-defi", "prediction-markets", "prediction-market-tools"],
+            ...["analytics", "oracle", "infrastructure", "depin", "zero-knowledge-zk", "gaming"],
+          ],
     },
     sources: {
       gharchive: env.PUSHD_RANK_GHARCHIVE?.trim().toLowerCase() !== "off",
       gharchiveBackfillHours: num(env.PUSHD_RANK_GHARCHIVE_BACKFILL_HOURS, 72, 0, 24 * 30),
       dexPerMin: num(env.PUSHD_DEX_PER_MIN, 30, 1, 250),
-      geckoPerMin: num(env.PUSHD_GECKO_PER_MIN, 5, 1, 30),
-      geckoDetailsPerDay: num(env.PUSHD_GECKO_DETAILS_PER_DAY, 150, 0, 5000),
-      websitesPerDay: num(env.PUSHD_POOL_WEBSITES_PER_DAY, 600, 0, 5000),
+      geckoPerMin: num(env.PUSHD_GECKO_PER_MIN, 8, 1, 30),
+      geckoDetailsPerDay: num(env.PUSHD_GECKO_DETAILS_PER_DAY, 1500, 0, 5000),
+      websitesPerDay: num(env.PUSHD_POOL_WEBSITES_PER_DAY, 1500, 0, 5000),
       pumpfun: env.PUSHD_POOL_PUMPFUN?.trim().toLowerCase() === "on",
-      codeSearchPages: num(env.PUSHD_POOL_CODE_SEARCH_PAGES, 3, 0, 10),
+      codeSearchPages: num(env.PUSHD_POOL_CODE_SEARCH_PAGES, 10, 0, 10),
       dexSearch: list(env.PUSHD_POOL_DEX_SEARCH).length
         ? list(env.PUSHD_POOL_DEX_SEARCH)
-        : ["ai agent", "agents", "pump", "solana ai", "base ai", "robinhood", "launchpad", "framework", "protocol", "sdk", "mcp", "bot", "terminal", "dex", "oracle", "virtuals", "eliza", "swarm", "inference", "zk"],
+        : [
+            ...["ai agent", "agents", "pump", "solana ai", "base ai", "robinhood", "launchpad", "framework", "protocol", "sdk", "mcp", "bot", "terminal", "dex", "oracle", "virtuals", "eliza", "swarm", "inference", "zk"],
+            ...["ai", "agent", "gpt", "llm", "neural", "compute", "gpu", "depin", "x402", "api", "dev", "code", "github", "open source", "labs", "network", "chain", "layer", "bridge", "wallet"],
+            ...["swap", "perp", "trading", "sniper", "copy trade", "analytics", "data", "scan", "tracker", "privacy", "game", "arena", "market", "predict", "vault", "yield", "stake", "pay", "music", "video"],
+          ],
       searchPerMin: num(env.PUSHD_RANK_SEARCH_PER_MIN, authenticated ? 18 : 5, 1, 30),
       deepOwners: num(env.PUSHD_RANK_DEEP_OWNERS, authenticated ? 400 : 60, 0, 5000),
     },
     everyHourMin: num(env.PUSHD_RANK_EVERY_MIN, 60, 5, 24 * 60),
-    deepEveryHours: num(env.PUSHD_RANK_DEEP_EVERY_HOURS, 24, 1, 24 * 14),
+    deepEveryHours: num(env.PUSHD_RANK_DEEP_EVERY_HOURS, 6, 1, 24 * 14),
     deny: { giants: new Set(GIANTS.map((g) => g.toLowerCase())), private: privateDeny(env), extra: new Set(list(env.PUSHD_DENY).map((x) => x.toLowerCase())) },
   };
 }

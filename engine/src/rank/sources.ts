@@ -175,12 +175,19 @@ export const GECKO_CHAIN: Record<string, string> = { solana: "solana", base: "ba
 
 export class CoinGecko {
   private readonly pace: Pace;
+  /** coin pages this pass may still read, so one pass never holds up the hourly ones for long */
+  private passLeft = Infinity;
   constructor(
     private readonly d: SourceDeps,
     perMin: number,
     private readonly detailsPerDay: number,
   ) {
     this.pace = new Pace(perMin, d.sleep, d.now);
+  }
+
+  /** Starts a pass that may read at most `max` new coin pages. */
+  startPass(max: number) {
+    this.passLeft = max;
   }
 
   private detailsToday(): number {
@@ -215,7 +222,8 @@ export class CoinGecko {
     const k = `gecko:coin:${id}`;
     const c = cachedSource(this.d.db, k, 7 * DAY, (this.d.now ?? Date.now)());
     if (c) return c.body ? (JSON.parse(c.body) as GeckoCoin) : null;
-    if (this.detailsToday() >= this.detailsPerDay) return null;
+    if (this.passLeft <= 0 || this.detailsToday() >= this.detailsPerDay) return null;
+    this.passLeft--;
     const r = await getJson<GeckoCoin>(
       this.d,
       "coingecko-coin",
