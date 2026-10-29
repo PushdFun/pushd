@@ -175,7 +175,7 @@ export function Palette() {
       key: `b${b.handle}`,
       section: "projects",
       title: b.handle,
-      hint: [b.name !== b.handle ? b.name : null, GROUPS[b.group].short].filter(Boolean).join(" . "),
+      hint: [b.name !== b.handle ? b.name : null, GROUPS[b.group].short].filter(Boolean).join(" · "),
       href: builderHref(b.handle),
       icon: <Avatar handle={b.handle} sample={b.sample} size={26} />,
       words: `${bare(b.handle)} ${b.name ?? ""} ${b.org ?? ""} ${GROUPS[b.group].label}`.toLowerCase(),

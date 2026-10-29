@@ -25,7 +25,7 @@ export default async function Image({ params }: { params: Promise<{ handle: stri
         <div style={{ display: "flex", marginTop: 28, gap: 48, flex: 1 }}>
           <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
             <span style={{ fontSize: 78, fontWeight: 800, letterSpacing: -2, lineHeight: 1 }}>{b ? bare(b.handle) : handle}</span>
-            <span style={{ fontSize: 26, color: C.muted, marginTop: 14 }}>{b ? [b.name !== b.handle ? b.name : null, b.org, GROUPS[b.group].mid].filter(Boolean).join(" . ") : "not on the watchlist"}</span>
+            <span style={{ fontSize: 26, color: C.muted, marginTop: 14 }}>{b ? [b.name !== b.handle ? b.name : null, b.org, GROUPS[b.group].mid].filter(Boolean).join(" · ") : "not on the watchlist"}</span>
             <div style={{ display: "flex", gap: 36, marginTop: "auto", marginBottom: 6 }}>
               {[
                 ["7 days", num(b?.events7d ?? 0)],

@@ -211,6 +211,8 @@ a.tchip:hover { color: var(--accent); border-color: var(--accent); }
 
 /* leaderboard rows */
 .lb { list-style: none; margin: 0; padding: 0; counter-reset: lb; }
+/* the scouts table is a .lb too (a boxed div); a list stays open */
+ol.lb { border: 0; border-radius: 0; background: none; overflow: visible; }
 .lb li { counter-increment: lb; display: grid; grid-template-columns: 2.4ch 32px minmax(0, 1fr) auto auto; gap: 12px; align-items: center; padding: 10px 0; border-top: 1px dashed var(--line); }
 .lb li:first-child { border-top: 0; }
 .lb li::before { content: counter(lb, decimal-leading-zero); font-family: var(--mono); font-size: 12px; color: var(--dim); }

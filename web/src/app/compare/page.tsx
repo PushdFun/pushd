@@ -137,7 +137,7 @@ export default async function ComparePage({ searchParams }: Props) {
                         </Link>
                       </h3>
                       <small>
-                        {[b.name !== b.handle ? b.name : null, GROUPS[b.group].mid].filter(Boolean).join(" . ")}
+                        {[b.name !== b.handle ? b.name : null, GROUPS[b.group].mid].filter(Boolean).join(" · ")}
                       </small>
                     </span>
                   </div>

@@ -278,9 +278,9 @@ export default async function Home() {
                       <Avatar handle={b.handle} sample={b.sample} size={32} />
                       <span className="who">
                         <Link href={builderHref(b.handle)}>{b.handle}</Link>
-                        <small>{[b.name !== b.handle ? b.name : null, GROUPS[b.group].short].filter(Boolean).join(" . ")}</small>
+                        <small>{[b.name !== b.handle ? b.name : null, GROUPS[b.group].short].filter(Boolean).join(" · ")}</small>
                       </span>
-                      <Sparkline values={b.spark} label={`${b.handle}: activity over 14 days`} />
+                      <Sparkline values={b.spark.slice(-7)} label={`${b.handle}: activity over 7 days`} />
                       <span className="n">
                         {num(b.events7d)}
                         <small>events</small>
@@ -295,7 +295,7 @@ export default async function Home() {
                 </div>
               )}
               <div className="foot">
-                <span>{sample ? "sample: counts of sample lines" : "GitHub lists up to 100 recent events per read"}</span>
+                <span>{sample ? "sample: counts of sample lines" : null}</span>
                 <Link className="textlink" href="/watchlist">
                   everyone -&gt;
                 </Link>

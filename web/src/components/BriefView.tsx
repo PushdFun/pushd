@@ -248,7 +248,7 @@ export function BriefView({ day, days }: { day: DayDetail; days: DaySummary[] })
                     </a>
                     {r.description && <p>{r.description}</p>}
                     <small>
-                      {[r.language, `${num(r.stars)} star${r.stars === 1 ? "" : "s"}`, `${utcTime(r.createdAt).slice(0, 5)} UTC`].filter(Boolean).join(" . ")}
+                      {[r.language, `${num(r.stars)} star${r.stars === 1 ? "" : "s"}`, `${utcTime(r.createdAt).slice(0, 5)} UTC`].filter(Boolean).join(" · ")}
                     </small>
                   </li>
                 ))}

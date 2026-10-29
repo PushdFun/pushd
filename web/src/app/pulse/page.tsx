@@ -229,7 +229,7 @@ export default async function PulsePage() {
                         <Link href={builderHref(b.handle)}>{b.handle}</Link>
                         <small>{GROUPS[b.group].short}</small>
                       </span>
-                      <Sparkline values={b.spark} label={`${b.handle}, 14 days`} />
+                      <Sparkline values={b.spark.slice(-7)} label={`${b.handle}, 7 days`} />
                       <span className="n">{num(b.events7d)}</span>
                     </li>
                   ))}
