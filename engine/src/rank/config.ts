@@ -127,7 +127,7 @@ export type RankConfig = {
 
 export function rankConfigFromEnv(env: Env = process.env, authenticated = false): RankConfig {
   const weights = Object.fromEntries(PART_DEFS.map((p) => [p.key, num(env[`PUSHD_RANK_W_${p.key.toUpperCase()}`], p.weight, 0, 100)])) as Record<PartKey, number>;
-  const size = num(env.PUSHD_TOP_SIZE, 100, 10, 500);
+  const size = num(env.PUSHD_TOP_SIZE, 1000, 10, 1000);
   return {
     on: env.PUSHD_RANK?.trim().toLowerCase() !== "off",
     size,

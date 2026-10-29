@@ -139,7 +139,7 @@ export class HolderWatch {
     if (max === 0) throw new WatchError(403, "Watching any account needs a wallet that holds $PUSHD.");
     const login = loginInput.trim().replace(/^@/, "");
     if (this.d.db.prepare("SELECT 1 FROM holder_watch WHERE address = ? AND login_lc = ?").get(a, login.toLowerCase())) return this.view(a, balanceWei);
-    if (this.d.inTop(login)) throw new WatchError(409, `${login} is in the Top list already, so PUSHD watches it for everyone. Follow it on the holders page instead.`);
+    if (this.d.inTop(login)) throw new WatchError(409, `${login} is on the list already, so PUSHD watches it for everyone. Follow it on the holders page instead.`);
     const have = (this.d.db.prepare("SELECT count(*) AS n FROM holder_watch WHERE address = ?").get(a) as { n: number }).n;
     if (have >= max) throw new WatchError(403, `Your holding allows ${max} added account${max === 1 ? "" : "s"}. Remove one, or hold more for the next tier.`);
     const isNew = !this.d.db.prepare("SELECT 1 FROM holder_watch WHERE login_lc = ?").get(login.toLowerCase());

@@ -31,7 +31,7 @@ const PAGES: [string, string, string, string][] = [
   ["/replay", "Replay", "a day in 60 seconds", "r"],
   ["/brief", "Daily brief", "what shipped today", "b"],
   ["/catches", "Catches", "the hot lines log", "c"],
-  ["/watchlist", "The list", "the most active projects now", "w"],
+  ["/watchlist", "The list", "every project PUSHD watches", "w"],
   ["/gh", "Look up", "anyone on GitHub", "u"],
   ["/compare", "Compare", "builders side by side", "d"],
   ["/how", "How it works", "the manual", "m"],

@@ -32,7 +32,7 @@ const sans = Schibsted_Grotesk({ subsets: ["latin"], weight: ["400", "500", "600
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: "PUSHD",
-  description: "Know the moment builders push. A live feed of what the most active crypto projects on GitHub publish.",
+  description: "Know the moment builders push. A live feed of every crypto project that keeps shipping on GitHub.",
   applicationName: "PUSHD",
   openGraph: { type: "website", siteName: "PUSHD", locale: "en" },
   twitter: { card: "summary_large_image", site: "@PushdFun" },

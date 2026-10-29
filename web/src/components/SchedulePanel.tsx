@@ -68,29 +68,23 @@ export function SchedulePanel({ plan, sample = false }: { plan: SchedulePlan; sa
   );
 }
 
-export function RulesPanel({ rules, weights }: { rules: RankRules; weights: { key: string; label: string; weight: number }[] }) {
+export function RulesPanel({ weights }: { rules: RankRules; weights: { key: string; label: string; weight: number }[] }) {
   const max = Math.max(1, ...weights.map((w) => w.weight));
   return (
     <div className="panel rules">
       <div className="ptitle">
-        <h3>How the list rotates</h3>
-        <span>so it does not churn</span>
+        <h3>Who is on the list</h3>
+        <span>every project that passes</span>
       </div>
       <ul className="rules-list">
         <li>
-          <b>In</b> after {rules.enterPasses} passes in a row in the top {rules.enterRank}.
+          <b>In</b> as soon as it has a live token, a real market and code pushed in the last 30 days.
         </li>
         <li>
-          <b>Out</b> after {rules.exitPasses} passes in a row below {rules.exitRank}.
+          <b>Out</b> when it no longer does.
         </li>
         <li>
-          <b>Stays</b> at least {rules.minDwellHours} hours once in.
-        </li>
-        <li>
-          <b>Every camp</b> keeps up to {rules.campMin} places when it has that many projects, so each scout has a camp to read.
-        </li>
-        <li>
-          <b>Size</b> {rules.size} at most. Every entry and exit is logged with its reason.
+          <b>Ranked</b> every hour by public GitHub activity. Every entry and exit is logged with its reason.
         </li>
       </ul>
       <div className="ptitle" style={{ marginTop: 22 }}>

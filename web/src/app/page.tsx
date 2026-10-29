@@ -46,7 +46,7 @@ export default async function Home() {
         <div className="wrap hero-grid">
           <div>
             <Prompt path="~/pushd" cmd="git push">
-              <span className="tag acc">watching the top {stats.builders}</span>
+              <span className="tag acc">watching {stats.builders} projects</span>
             </Prompt>
             <h1>
               Know the moment builders{" "}
@@ -56,8 +56,8 @@ export default async function Home() {
               </span>
             </h1>
             <p className="lede">
-              PUSHD watches the public GitHub of the {stats.builders} most active crypto projects on GitHub right now. When one of them
-              publishes, you get one plain line, the link, and a heat mark when it looks meme-able.
+              PUSHD watches the public GitHub of every crypto project it finds with a live token and code pushed in the last 30 days,
+              {stats.builders} right now. When one of them publishes, you get one plain line, the link, and a heat mark when it looks meme-able.
             </p>
             <div className="hero-cta">
               <Link className="btn btn-acc" href="/feed">
@@ -391,7 +391,7 @@ export default async function Home() {
               <h3>Daily brief</h3>
               <p>What the projects shipped today, the top five by heat, busy and quiet camps.</p>
               <span className="xart" aria-hidden="true">
-                top 5 . camps . <b>new repos</b>
+                top 5 · camps · <b>new repos</b>
               </span>
             </Link>
             <Link className="xcard" href="/pulse">
@@ -440,8 +440,8 @@ export default async function Home() {
               <div className="body">
                 <h3>Watch</h3>
                 <p>
-                  The {stats.builders} most active crypto projects on GitHub, ranked every hour. New repos, pushes, releases and public
-                  gists, read from GitHub&apos;s public activity.
+                  Every crypto project with a live token and a GitHub that keeps shipping, {stats.builders} right now. New repos,
+                  pushes, releases and public gists, read from GitHub&apos;s public activity.
                 </p>
               </div>
               <div className="art">

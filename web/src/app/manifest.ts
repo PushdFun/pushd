@@ -6,7 +6,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "PUSHD",
     short_name: "PUSHD",
-    description: "Know the moment builders push. A live feed of what the most active crypto projects on GitHub publish.",
+    description: "Know the moment builders push. A live feed of every crypto project that keeps shipping on GitHub.",
     start_url: "/feed",
     scope: "/",
     display: "standalone",

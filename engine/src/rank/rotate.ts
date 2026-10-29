@@ -124,7 +124,7 @@ export function rotate(i: RotateInput): { next: Map<string, StateRow>; changes: 
     if (members() >= r.size) break;
     const st = next.get(x.login)!;
     if (st.in_top || (st.rank ?? Infinity) > r.size || i.gone.has(x.login)) continue;
-    enter(x.login, `a seat was free and it ranked #${st.rank}`);
+    enter(x.login, `passed, ranked #${st.rank}`);
   }
   return { next, changes };
 }

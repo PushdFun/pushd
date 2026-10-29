@@ -80,7 +80,7 @@ export class Suggestions {
     if (mine.n >= (this.d.perDay ?? 10)) throw new SuggestError(429, "Thanks! That is enough suggestions for today.");
     const all = (this.d.db.prepare("SELECT count(*) AS n FROM suggestion_acts").get() as { n: number }).n;
     if (all >= (this.d.globalPerDay ?? 500)) throw new SuggestError(429, "The suggestion box is full for today. Try again tomorrow.");
-    if (this.d.inTop(login)) throw new SuggestError(409, `${login} is in the Top list already.`);
+    if (this.d.inTop(login)) throw new SuggestError(409, `${login} is on the list already.`);
     this.d.db.prepare("INSERT INTO suggestion_acts (visitor, at) VALUES (?, ?)").run(visitor, now);
     // the never-shown list: taken like any other, then dropped
     if (this.d.hidden(login)) return { ok: true, already: false, message: "Thanks. The owner reads every suggestion; nothing is added automatically." };

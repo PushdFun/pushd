@@ -57,3 +57,7 @@ export function agoWords(at: string, asOf: string): string {
 
 /** "14:00" for an hour of the day */
 export const hourLabel = (h: number) => `${pad(h)}:00`;
+
+/** A list entry's reason in today's words (older entries were logged when the list had a fixed number of places). */
+export const reasonText = (r: string) =>
+  r.replace(/^a seat was free and it ranked #/, "passed, ranked #").replace(/^ranked in the top \d+ for \d+ passes in a row/, "passed");

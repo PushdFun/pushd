@@ -7,13 +7,13 @@ import { SuggestForm } from "@/components/SuggestForm";
 import { TopTable } from "@/components/TopTable";
 import { WatchTable } from "@/components/WatchTable";
 import { getBuilders, getPulse, getTop } from "@/lib/data";
-import { agoWords, bare, builderHref, num } from "@/lib/format";
+import { agoWords, bare, builderHref, num, reasonText } from "@/lib/format";
 import { GROUPS, GROUP_ORDER } from "@/lib/groups";
 import type { RankChange } from "@/lib/types";
 
 export const metadata: Metadata = {
-  title: "PUSHD: the most active projects",
-  description: "The most active crypto projects on GitHub right now, ranked every hour, and why each one ranks where it does.",
+  title: "PUSHD: the list",
+  description: "Every crypto project with a live token and a GitHub that keeps shipping, ranked every hour by activity.",
   alternates: { canonical: "/watchlist" },
 };
 
@@ -36,7 +36,7 @@ function Changes({ list, asOf, empty }: { list: RankChange[]; asOf: string; empt
               <i className="gdot" /> {GROUPS[c.group].short} . #{c.rank} . {agoWords(c.at, asOf)}
             </small>
           </span>
-          <span className="chg-why">{c.reason}</span>
+          <span className="chg-why">{reasonText(c.reason)}</span>
         </li>
       ))}
     </ul>
@@ -54,23 +54,23 @@ export default async function WatchlistPage() {
         <div className="wrap">
           <div className="page-head-row">
             <div>
-              <Prompt path="~/pushd" cmd="pushd top --live">
+              <Prompt path="~/pushd" cmd="pushd list --live">
                 {top?.sample && <span className="tag sample">Sample</span>}
               </Prompt>
               <h1>
-                Top {top ? num(size) : 100}
+                {top ? `${num(size)} projects` : "The list"}
                 <span className="acc">.</span>
               </h1>
               <p className="lede">
                 {top
-                  ? `The ${num(size)} most active crypto projects on GitHub right now, out of ${num(top.pool)} in the pool. Ranked every hour from public activity, and rotated slowly so the list does not churn.`
-                  : "The most active crypto projects on GitHub right now, ranked every hour from public activity."}
+                  ? `Every crypto project PUSHD finds with a live token, a real market and code pushed in the last 30 days: ${num(size)} right now. Ranked every hour by public activity. A project joins as soon as it passes and leaves when it stops.`
+                  : "Every crypto project PUSHD finds with a live token, a real market and code pushed in the last 30 days, ranked every hour by public activity."}
               </p>
             </div>
             {top && (
               <div className="panel ls" aria-label="Places by camp">
                 <div className="ls-row" style={{ color: "var(--dim)" }}>
-                  <span>top</span>
+                  <span>projects</span>
                   <span className="c">{size}</span>
                   <span>{top.lastPass ? `ranked ${agoWords(top.lastPass, asOf)}` : "not ranked yet"}</span>
                 </div>
@@ -109,7 +109,7 @@ export default async function WatchlistPage() {
               <div>
                 <div className="eyebrow">rotation</div>
                 <h2>Who came in, who left.</h2>
-                <p>Every entry and exit is logged with its reason. The next in line wait on the right.</p>
+                <p>Every project that joins or leaves is logged with its reason.</p>
               </div>
             </div>
             <div className="top-moves">
@@ -118,41 +118,14 @@ export default async function WatchlistPage() {
                   <h3>Recently entered</h3>
                   <span>{top.entered.length}</span>
                 </div>
-                <Changes list={top.entered} asOf={asOf} empty="Entries show here once the ranking has run a few passes." />
+                <Changes list={top.entered} asOf={asOf} empty="New projects show here as they pass." />
               </div>
               <div className="panel">
                 <div className="ptitle">
                   <h3>Recently dropped out</h3>
                   <span>{top.dropped.length}</span>
                 </div>
-                <Changes list={top.dropped} asOf={asOf} empty="Nobody has left yet. A project leaves only after several passes far down the list." />
-              </div>
-              <div className="panel">
-                <div className="ptitle">
-                  <h3>Waiting to enter</h3>
-                  <span>best outside</span>
-                </div>
-                {top.waiting.length ? (
-                  <ol className="wait">
-                    {top.waiting.slice(0, 8).map((r) => (
-                      <li key={r.handle} className={`g-${r.group}`}>
-                        <span className="w-rank">{r.rank}</span>
-                        <span className="w-who">
-                          <Link href={`/gh/${encodeURIComponent(bare(r.handle))}`}>{bare(r.handle)}</Link>
-                          <small>
-                            <i className="gdot" /> {GROUPS[r.group].short}
-                          </small>
-                        </span>
-                        <b>{r.score.toFixed(1)}</b>
-                      </li>
-                    ))}
-                  </ol>
-                ) : (
-                  <div className="estate">
-                    <b>Nobody waiting.</b>
-                    <span>Projects ranked just outside the top show here.</span>
-                  </div>
-                )}
+                <Changes list={top.dropped} asOf={asOf} empty="Nobody has left yet. A project leaves when it no longer passes." />
               </div>
             </div>
           </div>

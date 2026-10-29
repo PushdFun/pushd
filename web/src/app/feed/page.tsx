@@ -5,7 +5,7 @@ import { getFeed, getHolder, getStats } from "@/lib/data";
 
 export const metadata: Metadata = {
   title: "PUSHD Feed",
-  description: "The live feed of public GitHub activity from the most active crypto projects on GitHub right now.",
+  description: "The live feed of public GitHub activity from every crypto project that keeps shipping on GitHub.",
   alternates: { canonical: "/feed" },
 };
 
