@@ -251,7 +251,7 @@ img, svg { display: block; max-width: 100%; }
 }
 
 @media (max-width: 1080px) {
-  .nav, .hdr-r .soc, .hdr-r .btn { display: none; }
+  .nav, .hdr-r .btn { display: none; }
   .menu-btn { display: inline-grid; }
   .hdr-in { padding: 0 16px; height: 60px; }
   .drawer {

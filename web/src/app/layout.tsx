@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   description: "Know the moment builders push. A live feed of what the most active crypto projects on GitHub publish.",
   applicationName: "PUSHD",
   openGraph: { type: "website", siteName: "PUSHD", locale: "en" },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", site: "@PushdFun" },
   robots: { index: true, follow: true },
 };
 

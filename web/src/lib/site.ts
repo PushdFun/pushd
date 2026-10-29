@@ -1,12 +1,11 @@
-// The site's own addresses. The accounts are set up in the identity phase; until then the icons lead nowhere. The buy
-// button follows $PUSHD itself (getBuyLink in src/lib/data.ts): launching soon until the token exists.
+// The site's own addresses. The buy button follows $PUSHD itself (getBuyLink in src/lib/data.ts): launching soon until the token exists.
 
 export const SITE = {
   name: "PUSHD",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://pushd.fun",
   tagline: "Know the moment builders push.",
   github: "https://github.com/PushdFun/pushd" as string | null,
-  x: null as string | null,
+  x: "https://x.com/PushdFun" as string | null,
 };
 
 export const RISK_LINE = "Nothing on PUSHD is financial advice. Everything here is at your own risk.";
