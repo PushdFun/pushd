@@ -12,7 +12,7 @@ const PAGES = {
   "/": /Know the moment builders\s*push/,
   "/feed": /The feed\./,
   "/catches": /Catches\./,
-  "/watchlist": /^Top \d+\.$/,
+  "/watchlist": /^(\d+ projects|The list)\.$/,
   "/gh": /Look up anyone\./,
   "/admin/suggestions": /Admin\./,
   "/how": /How it works\./,
@@ -150,7 +150,7 @@ test("the feed shows every sample line, marked Sample", async () => {
   for (const repo of SAMPLE_REPOS) assert.ok(t.includes(repo), `feed shows ${repo}`);
   for (const id of SAMPLE_IDS) assert.match(html, new RegExp(`id="${id}"`), `feed has line ${id}`);
   assert.match(t, /Sample data/);
-  assert.equal((t.match(/\. Sample\b/g) ?? []).length, SAMPLE_IDS.length, "each line says Sample");
+  assert.equal((t.match(/· Sample\b/g) ?? []).length, SAMPLE_IDS.length, "each line says Sample");
   assert.match(t, /showing 7 of 7 sample lines/);
   // home and catches mark their sample lines too
   assert.match(text((await get("/")).html), /Sample/);
@@ -297,7 +297,7 @@ test("terms and privacy lead to their sections", async () => {
 });
 
 test("metadata: titles, share picture, favicon, robots", async () => {
-  const titles = { "/": "PUSHD", "/pulse": "PUSHD Pulse", "/compare": "PUSHD Compare", "/feed": "PUSHD Feed", "/catches": "PUSHD Catches", "/watchlist": "PUSHD: the most active projects", "/gh": "PUSHD Look up", "/how": "How PUSHD Works", "/holders": "PUSHD Holders", "/token": "PUSHD Token", "/own-risk": "PUSHD Own Risk" };
+  const titles = { "/": "PUSHD", "/pulse": "PUSHD Pulse", "/compare": "PUSHD Compare", "/feed": "PUSHD Feed", "/catches": "PUSHD Catches", "/watchlist": "PUSHD: the list", "/gh": "PUSHD Look up", "/how": "How PUSHD Works", "/holders": "PUSHD Holders", "/token": "PUSHD Token", "/own-risk": "PUSHD Own Risk" };
   for (const [path, title] of Object.entries(titles)) {
     const { html } = await get(path);
     assert.match(html, new RegExp(`<title>${title.replace("$", "\\$")}</title>`), path);
