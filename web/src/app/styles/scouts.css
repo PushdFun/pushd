@@ -366,7 +366,8 @@
   .nav a { padding: 0 9px; }
   .nav a[aria-current="page"]::after { left: 9px; right: 9px; }
   .hdr-r .kbtn .kb-hint { display: none; }
-  .hdr-r .kbtn { width: 38px; padding: 0; }
+  .hdr-r .kbtn { width: 38px; padding: 0; gap: 0; justify-content: center; border-color: transparent; background: transparent; }
+  .hdr-r .kbtn:hover { border-color: var(--line-2); background: var(--bg-3); }
   .hdr-in { gap: 20px; }
 }
 @media (min-width: 1081px) and (max-width: 1360px) {

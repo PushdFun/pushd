@@ -619,4 +619,5 @@ a.member:hover { border-color: var(--accent); color: var(--accent); }
 .kbtn svg { width: 17px; height: 17px; }
 .kbtn .kb-hint { margin-left: 2px; }
 .hdr-r .kbtn { border-color: var(--line); background: var(--bg-2); }
-@media (max-width: 1320px) { .hdr-r .kbtn .kb-hint { display: none; } .hdr-r .kbtn { width: 38px; padding: 0; } }
+/* without its hint the search button is an icon like its neighbours: centred, no box of its own */
+@media (max-width: 1320px) { .hdr-r .kbtn .kb-hint { display: none; } .hdr-r .kbtn { width: 38px; padding: 0; gap: 0; justify-content: center; border-color: transparent; background: transparent; } .hdr-r .kbtn:hover { border-color: var(--line-2); background: var(--bg-3); } }
