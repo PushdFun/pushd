@@ -403,6 +403,14 @@ export class RepoClient {
     return r ? { number: r.number, title: r.title, body: r.body ?? "", author: r.user?.login ?? null, url: r.html_url, isPull: !!r.pull_request } : null;
   }
 
+  /** The agent's own pull request still open from a branch starting with `prefix` (a pushd/ one), so a job adds to it instead of opening another. */
+  async openAgentPull(prefix: string): Promise<{ number: number; url: string; branch: string } | null> {
+    if (!prefix.startsWith(BRANCH_PREFIX)) return null;
+    const r = await this.get<{ number: number; html_url: string; head?: { ref?: string; repo?: { full_name?: string } | null } }[]>("/pulls?state=open&per_page=50");
+    const p = (Array.isArray(r) ? r : []).find((x) => x.head?.ref?.startsWith(prefix) && x.head.repo?.full_name?.toLowerCase() === this.fullName.toLowerCase());
+    return p?.head?.ref ? { number: p.number, url: p.html_url, branch: p.head.ref } : null;
+  }
+
   // ---- writes: every one through assertSafeWrite ----
 
   async createBranch(name: string): Promise<{ branch: string; sha: string }> {

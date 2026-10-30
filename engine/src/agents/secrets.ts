@@ -63,7 +63,9 @@ export function findSecrets(text: string, file = ""): Finding[] {
         const v = p.group ? m[p.group] : m[0];
         if (!v) continue;
         // a placeholder is not a credential
-        if (/^(x+|0+|your|changeme|example|placeholder|dummy|test|xxx)/i.test(v) || /\$\{|process\.env|<[^>]+>/.test(v)) continue;
+        // (a whole value of x or 0, or one starting with a placeholder word; a 0x key starts with 0 and is real)
+        const bare = v.replace(/^0x/i, "");
+        if (/^(x+|0+)$/i.test(bare) || /^(your|changeme|example|placeholder|dummy|test|xxx)/i.test(bare) || /\$\{|process\.env|<[^>]+>/.test(v)) continue;
         out.push({ file, line: i + 1, kind: p.kind, masked: p.kind === "private key block" ? "[private key]" : maskValue(v) });
       }
     }

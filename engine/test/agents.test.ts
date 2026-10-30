@@ -11,6 +11,7 @@ import { AgentsError } from "../src/agents/agents.ts";
 import { appJwt, assertSafeWrite, GhAppError, safeBranch, safePath, verifyWebhook } from "../src/agents/github-app.ts";
 import { buildServices } from "../src/agents/index.ts";
 import { findSecrets, maskSecrets, scanPatches } from "../src/agents/secrets.ts";
+import { bumpPackageJson } from "../src/agents/jobs.ts";
 import { checkSpec, SpecError, templateSpec } from "../src/agents/spec.ts";
 import { nextTag } from "../src/agents/jobs.ts";
 import { APP_ENV, APP_KEY, holderWallet, NOW, OWNER, payment, sha, signDelivery, world, type World } from "./agents-helpers.ts";
@@ -323,6 +324,10 @@ describe("keys are masked everywhere", () => {
     assert.ok(!maskSecrets(`PRIVATE_KEY=0x${"ab".repeat(32)}`).includes("ab".repeat(32)));
     assert.match(maskSecrets("-----BEGIN RSA PRIVATE KEY-----\nMII..."), /\[a private key was here\]/);
     assert.equal(findSecrets('api_key = "your-api-key-goes-here-please"').length, 0, "a placeholder is not a key");
+    // a wallet key written with 0x starts with 0: it is still found, while a value of only zeros is not
+    const wallet = "0x" + "3f9a".repeat(16);
+    assert.equal(findSecrets(`PRIVATE_KEY=${wallet}`)[0]?.kind, "wallet private key", "a 0x wallet key is found");
+    assert.equal(findSecrets(`PRIVATE_KEY=0x${"0".repeat(64)}`).length, 0, "a key of zeros is a placeholder");
     const f = scanPatches([{ filename: "config.js", patch: `@@ -1,2 +1,3 @@\n const a = 1;\n+const aws = "${AWS}";\n-const old = "${GHTOKEN}";` }]);
     assert.deepEqual(f.map((x) => [x.file, x.line, x.kind, x.masked]), [["config.js", 2, "AWS access key", "AKIA************"]]);
   });
@@ -599,4 +604,10 @@ describe("the switch and the routes", () => {
     assert.equal(w.gh.tokensIssued, 1);
     assert.equal(tokens(1) > 0n, true);
   });
+});
+
+test("a dependency bump keeps the file's formatting and each version's prefix", () => {
+  const pkg = `{\n  "scripts": { "test": "node --test" },\n  "dependencies": { "lodash": "4.17.15", "axios": "^0.21.0" },\n  "devDependencies": { "tsx": "~3.0.0" }\n}\n`;
+  const out = bumpPackageJson(pkg, [{ name: "lodash", latest: "4.18.1" }, { name: "axios", latest: "1.21.0" }, { name: "tsx", latest: "4.1.0" }]);
+  assert.equal(out, `{\n  "scripts": { "test": "node --test" },\n  "dependencies": { "lodash": "4.18.1", "axios": "^1.21.0" },\n  "devDependencies": { "tsx": "~4.1.0" }\n}\n`);
 });

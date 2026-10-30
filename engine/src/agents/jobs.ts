@@ -128,14 +128,26 @@ async function releaseNotes(c: RunCtx): Promise<JobResult> {
     flags.push(`Written from the commit messages, without a model (${(e as Error).message})`);
   }
   if (c.jobSpec.deliver !== "pr") return { summary: `Release notes for ${ch.commits.length} commit${ch.commits.length === 1 ? "" : "s"}, as a draft.`, outputs: [{ type: "draft", title: line, text: notes }, { type: "link", label: "the changes", url: ch.link }], flags };
-  const branch = branchFor(c, "release-notes");
-  const made = await c.repo.createBranch(branch);
-  c.act({ action: "branch", url: `https://github.com/${c.run.repo}/tree/${branch}`, sha: made.sha, note: branch });
+  // one changelog pull request at a time: while the last one is open, the new line goes onto its branch
+  const open = await c.repo.openAgentPull(`${BRANCH_PREFIX}release-notes-`);
+  const branch = open?.branch ?? branchFor(c, "release-notes");
+  if (!open) {
+    const made = await c.repo.createBranch(branch);
+    c.act({ action: "branch", url: `https://github.com/${c.run.repo}/tree/${branch}`, sha: made.sha, note: branch });
+  }
   const old = await c.repo.file("CHANGELOG.md", { ref: branch, max: 400_000 });
-  const entry = `## ${day(c.now())}\n\n- ${line}\n`;
-  const text = old ? (/^# .*\n/.test(old.text) ? old.text.replace(/^(# .*\n\n?)/, `$1${entry}\n`) : `${entry}\n${old.text}`) : `# Changelog\n\n${entry}`;
+  const head = `## ${day(c.now())}\n\n`;
+  const entry = `${head}- ${line}\n`;
+  const text = old?.text.includes(head)
+    ? old.text.replace(head, `${head}- ${line}\n`)
+    : old
+      ? /^# .*\n/.test(old.text)
+        ? old.text.replace(/^(# .*\n\n?)/, (m) => `${m}${entry}\n`)
+        : `${entry}\n${old.text}`
+      : `# Changelog\n\n${entry}`;
   const commit = await c.repo.putFile(branch, "CHANGELOG.md", text, `Changelog: ${line}`.slice(0, 120));
   c.act({ action: "commit", url: commit.url, sha: commit.sha, note: "CHANGELOG.md" });
+  if (open) return { summary: `Release notes added to the open pull request #${open.number}.`, outputs: [{ type: "link", label: `Pull request #${open.number}`, url: open.url }, { type: "draft", title: line, text: notes }], flags };
   const pr = await c.repo.openPull(branch, `Changelog: ${day(c.now())}`, `${notes}${footer(c)}`);
   c.act({ action: "pull_request", url: pr.url, note: `#${pr.number}` });
   return { summary: `Release notes as pull request #${pr.number}.`, outputs: [{ type: "link", label: `Pull request #${pr.number}`, url: pr.url }, { type: "draft", title: line, text: notes }], flags };
@@ -447,16 +459,22 @@ async function dependencyWatch(c: RunCtx): Promise<JobResult> {
   const outputs: Output[] = [{ type: "deps", items: found }];
   const bump = found.filter((f) => f.ecosystem === "npm" && f.latest);
   if (c.jobSpec.bumpPr && pkg && bump.length) {
-    const j = JSON.parse(pkg.text) as Record<string, unknown>;
-    for (const f of bump)
-      for (const k of ["dependencies", "devDependencies"]) {
-        const sec = j[k] as Record<string, string> | undefined;
-        if (sec && sec[f.name] != null) sec[f.name] = `^${f.latest}`;
+    const next = bumpPackageJson(pkg.text, bump);
+    // one bump pull request at a time: while it is open it is brought up to date, never opened twice
+    const open = await c.repo.openAgentPull(`${BRANCH_PREFIX}deps-`);
+    if (open) {
+      const there = await c.repo.file("package.json", { ref: open.branch, max: 200_000 });
+      if (there?.text !== next) {
+        const commit = await c.repo.putFile(open.branch, "package.json", next, `Bump ${bump.length} dependenc${bump.length === 1 ? "y" : "ies"}`);
+        c.act({ action: "commit", url: commit.url, sha: commit.sha, note: "package.json" });
       }
+      outputs.push({ type: "link", label: `Pull request #${open.number} (already open)`, url: open.url });
+      return { summary: `${found.length} of ${list.length} dependencies flagged; the bump is in the open pull request #${open.number}.`, outputs, flags };
+    }
     const branch = branchFor(c, "deps");
     const made = await c.repo.createBranch(branch);
     c.act({ action: "branch", url: `https://github.com/${c.run.repo}/tree/${branch}`, sha: made.sha, note: branch });
-    const commit = await c.repo.putFile(branch, "package.json", `${JSON.stringify(j, null, 2)}\n`, `Bump ${bump.length} dependenc${bump.length === 1 ? "y" : "ies"}`);
+    const commit = await c.repo.putFile(branch, "package.json", next, `Bump ${bump.length} dependenc${bump.length === 1 ? "y" : "ies"}`);
     c.act({ action: "commit", url: commit.url, sha: commit.sha, note: "package.json" });
     const body = bump.map((f) => `- ${f.name} ${f.current} to ${f.latest}${f.vulns.length ? ` (${f.vulns.join(", ")})` : ""}`).join("\n");
     const pr = await c.repo.openPull(branch, `Bump ${bump.length} dependenc${bump.length === 1 ? "y" : "ies"}`, `${body}\n\nThe lockfile is not updated: run your install and the tests on this branch before merging.${footer(c)}`);
@@ -467,6 +485,26 @@ async function dependencyWatch(c: RunCtx): Promise<JobResult> {
 }
 
 // ---- the release maker: a draft release, the owner publishes it ----
+
+/**
+ * package.json with each flagged dependency moved to its latest version, as an edit of the file's own text: the owner's
+ * formatting stays, and so does each version's prefix (an exact pin stays exact, a ^ or ~ range keeps its sign).
+ */
+export function bumpPackageJson(text: string, bump: { name: string; latest: string | null }[]): string {
+  const j = JSON.parse(text) as Record<string, unknown>;
+  let out = text;
+  for (const f of bump) {
+    if (!f.latest) continue;
+    for (const k of ["dependencies", "devDependencies"]) {
+      const old = (j[k] as Record<string, string> | undefined)?.[f.name];
+      if (typeof old !== "string") continue;
+      const prefix = /^[\^~]/.exec(old)?.[0] ?? "";
+      const esc = (x: string) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      out = out.replace(new RegExp(`("${esc(f.name)}"\\s*:\\s*")${esc(old)}"`), (_m, head: string) => `${head}${prefix}${f.latest}"`);
+    }
+  }
+  return out;
+}
 
 export function nextTag(last: string | null, bump: "patch" | "minor" | "major"): string {
   const m = last ? /^(v?)(\d+)\.(\d+)\.(\d+)/.exec(last) : null;
